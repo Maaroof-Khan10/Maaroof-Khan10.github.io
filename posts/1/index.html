@@ -250,10 +250,10 @@
 <p>Now, we know most of the logic is handled on the client side (Vibe Coding™). My hypothesis was simple: if I could just make that <code>hasPaid</code> response come back as <code>true</code>, I could bypass the authorization check and enjoy my free premium account.</p>
 <p>So, I fired up Burp Suite.</p>
 <p>I added the target site to my scope and went to <strong>Proxy -&gt; Options -&gt; Intercept Server Responses</strong> and enabled it.</p>
-<p><img src="response.png" alt="alt text"></p>
+<p><img src="response.png" alt="Response intercept"></p>
 <p>With the intercept active, I reloaded the page and caught the response from the server. In the response body was the simple JSON payload: <code>{ &quot;hasPaid&quot;: false }</code>.</p>
 <p>Time to lie. I went to <strong>Proxy -&gt; Options -&gt; Match and Replace</strong>.</p>
-<p><img src="matchImg.png" alt="alt text"></p>
+<p><img src="matchImg.png" alt="Match and Replace Burp"></p>
 <p>I added a simple rule to replace the string <code>&quot;hasPaid&quot;:false</code> with <code>&quot;hasPaid&quot;:true</code> in all responses.</p>
 <p>And voilà! The error messages vanished. We successfully bypassed the payment and authorization checks, unlocking a full premium account.</p>
 <h3 id="the-aftermath">The Aftermath<a href="#the-aftermath" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>

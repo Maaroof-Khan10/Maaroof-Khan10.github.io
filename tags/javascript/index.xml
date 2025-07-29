@@ -140,10 +140,10 @@
 &lt;p&gt;Now, we know most of the logic is handled on the client side (Vibe Coding™). My hypothesis was simple: if I could just make that &lt;code&gt;hasPaid&lt;/code&gt; response come back as &lt;code&gt;true&lt;/code&gt;, I could bypass the authorization check and enjoy my free premium account.&lt;/p&gt;
 &lt;p&gt;So, I fired up Burp Suite.&lt;/p&gt;
 &lt;p&gt;I added the target site to my scope and went to &lt;strong&gt;Proxy -&amp;gt; Options -&amp;gt; Intercept Server Responses&lt;/strong&gt; and enabled it.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;response.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;response.png&#34; alt=&#34;Response intercept&#34;&gt;&lt;/p&gt;
 &lt;p&gt;With the intercept active, I reloaded the page and caught the response from the server. In the response body was the simple JSON payload: &lt;code&gt;{ &amp;quot;hasPaid&amp;quot;: false }&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Time to lie. I went to &lt;strong&gt;Proxy -&amp;gt; Options -&amp;gt; Match and Replace&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;matchImg.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;matchImg.png&#34; alt=&#34;Match and Replace Burp&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I added a simple rule to replace the string &lt;code&gt;&amp;quot;hasPaid&amp;quot;:false&lt;/code&gt; with &lt;code&gt;&amp;quot;hasPaid&amp;quot;:true&lt;/code&gt; in all responses.&lt;/p&gt;
 &lt;p&gt;And voilà! The error messages vanished. We successfully bypassed the payment and authorization checks, unlocking a full premium account.&lt;/p&gt;
 &lt;h3 id=&#34;the-aftermath&#34;&gt;The Aftermath&lt;/h3&gt;
