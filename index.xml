@@ -6,11 +6,11 @@
     <description>Recent content on Maaroof Khan - Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 27 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ruining the &#39;Vibe&#39; and bypassing payments</title>
       <link>https://Maaroof-Khan10.github.io/posts/1/</link>
-      <pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
       
       <guid>https://Maaroof-Khan10.github.io/posts/1/</guid>
       <description>&lt;p&gt;We&amp;rsquo;re living in the age of AI, where even the simplest tasks are being automated daily. And with this wave comes a flood of people with ideas, all looking to spin up a quick product and make a quick buck.&lt;/p&gt;
@@ -133,7 +133,7 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sessionStorage&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setItem&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;pendingSignup&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;JSON&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;stringify&lt;/span&gt;({&lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;c016u@mechanicspedia.com&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PasswordGoesHere123&amp;#39;&lt;/span&gt;}));
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With the &lt;code&gt;pendingSignup&lt;/code&gt; value manually set, all I had to do was navigate directly to the &lt;code&gt;/payment-success&lt;/code&gt; endpoint. As the source code promised, it saw the session data, assumed I was a good, paying customer, and signed me right up.&lt;/p&gt;
 &lt;p&gt;It worked.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;payment.png&#34; alt=&#34;Payment successful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cover.png&#34; alt=&#34;Payment successful&#34;&gt;&lt;/p&gt;
 &lt;p&gt;A verification email landed in my temporary inbox. Clicking the link redirected me to the homepage for a &amp;ldquo;paid&amp;rdquo; user. Jackpot, right?&lt;/p&gt;
 &lt;p&gt;Not quite. Remember that &lt;code&gt;checkPaymentStatus()&lt;/code&gt; function? It left us alone during signup, but now it&amp;rsquo;s back for revenge. The site sees we&amp;rsquo;re logged in and calls this function to confirm we&amp;rsquo;ve actually paid. The function, doing its one job correctly, always responds with &lt;code&gt;{ &amp;quot;hasPaid&amp;quot;: false }&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;step-2-making-the-client-lie&#34;&gt;Step 2: Making the Client Lie&lt;/h3&gt;
