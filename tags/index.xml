@@ -1,11 +1,113 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Maaroof Khan (Blog)</title>
+    <title>Tags on MK-WriteUps</title>
     <link>https://Maaroof-Khan10.github.io/tags/</link>
-    <description>Recent content in Tags on Maaroof Khan (Blog)</description>
-    <generator>Hugo</generator>
+    <description>Recent content in Tags on MK-WriteUps</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="https://Maaroof-Khan10.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>maaroofkhan2004@gmail.com (Maaroof Khan)</managingEditor>
+    <webMaster>maaroofkhan2004@gmail.com (Maaroof Khan)</webMaster>
+    <lastBuildDate>Sun, 10 Aug 2025 16:46:16 +0530</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Easy</title>
+      <link>https://Maaroof-Khan10.github.io/tags/easy/</link>
+      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/easy/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>HackTheBox</title>
+      <link>https://Maaroof-Khan10.github.io/tags/hackthebox/</link>
+      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/hackthebox/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://Maaroof-Khan10.github.io/tags/linux/</link>
+      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/linux/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Writeup</title>
+      <link>https://Maaroof-Khan10.github.io/tags/writeup/</link>
+      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/writeup/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Bug Bounty</title>
+      <link>https://Maaroof-Khan10.github.io/tags/bug-bounty/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/bug-bounty/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Client-Side</title>
+      <link>https://Maaroof-Khan10.github.io/tags/client-side/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/client-side/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>https://Maaroof-Khan10.github.io/tags/javascript/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/javascript/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Pentesting</title>
+      <link>https://Maaroof-Khan10.github.io/tags/pentesting/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/pentesting/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Security</title>
+      <link>https://Maaroof-Khan10.github.io/tags/security/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/security/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Vulnerability</title>
+      <link>https://Maaroof-Khan10.github.io/tags/vulnerability/</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/vulnerability/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
   </channel>
 </rss>
