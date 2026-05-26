@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>SOC HomeLab: Using Wazuh and Docker to create an interactive home lab :: MK-WriteUps</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A walkthrough on how to setup a homelab in easy steps using docker" />
+<meta name="keywords" content="SOC, HomeLab, Docker, Wazuh, SIEM, CyberSecurity" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://Maaroof-Khan10.github.io/posts/3/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://Maaroof-Khan10.github.io/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://Maaroof-Khan10.github.io/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="https://Maaroof-Khan10.github.io/img/theme-colors/red.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="SOC HomeLab: Using Wazuh and Docker to create an interactive home lab">
+<meta property="og:description" content="A walkthrough on how to setup a homelab in easy steps using docker" />
+<meta property="og:url" content="https://Maaroof-Khan10.github.io/posts/3/" />
+<meta property="og:site_name" content="MK-WriteUps" />
+
+  
+  
+  <meta property="og:image" content="https://Maaroof-Khan10.github.io/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2026-05-26 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="red">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    MK-WriteUps
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://Maaroof-Khan10.github.io/posts/3/">SOC HomeLab: Using Wazuh and Docker to create an interactive home lab</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2026-05-26</time><span class="post-author">Maaroof Khan</span>
+    
+<span class="post-reading-time">10 min read (2065 words)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/redteaming/">RedTeaming</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/blueteaming/">BlueTeaming</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/soc/">SOC</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/linux/">Linux</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/homelab/">HomeLab</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <p>Hello my friend! Been a long time since I posted here, thinking of starting again.
+That aside, today we will be creating a homelab using <code>docker</code> and <code>wazuh</code>. Labs like these are a great tool for learning and practicing major <em>Red Teaming</em> and <em>Blue Teaming</em> skills. So without any further chitchat, let us get into it right away!</p>
+<h3 id="lab-architecture">Lab architecture:<a href="#lab-architecture" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>Kali Linux (Attacker)</li>
+<li>Ubuntu (Victim) running <code>OWASP juice-shop</code> as a vulnerable service</li>
+<li>Nginx service on ubuntu acting as a reverse proxy (Mimicking real world scenario)</li>
+<li>Wazuh (Manager, Indexer, Dashboard) as SIEM</li>
+<li>Suricata to monitor network traffic through wazuh</li>
+</ul>
+<h3 id="requirements">Requirements:<a href="#requirements" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>Docker/Docker Desktop</li>
+<li>WSL (If on windows)</li>
+<li>Git</li>
+</ul>
+<p>Once you have gone through the architecture and requirements and understand how we might be configuring things, we can move ahead!</p>
+<h2 id="step-1---initial-lab-setup">Step 1 - Initial Lab Setup<a href="#step-1---initial-lab-setup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Start by cloning Wazuh&rsquo;s git repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.5 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Feel free to change the version to a specific or latest one</span>
+</span></span></code></pre></div><p>Now time to start the setup for our lab. On a windows machine the official wazuh documentation recommends setting <code>vm.max_map_count</code>. To do that we can go to <code>C:\Users\&lt;YourUsername&gt;</code> and find/create the file <code>.wslconfig</code>. Add this line at the end of it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kernelCommandLine <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sysctl.vm.max_map_count=262144&#34;</span>
+</span></span></code></pre></div><p>After that shutdown wsl using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wsl --shutdown
+</span></span></code></pre></div><p>And restart docker desktop. Finally we are ready to start the actual lab setup. Go to the wazuh git repo we just cloned:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd wazuh-docker/single-node
+</span></span></code></pre></div><p>Since we are only setting up a home lab we will use the single node which contains 1 Indexer, 1 Manager and 1 Dashboard. Ideal for our small lab environment. Once we are inside our directory we can start by opening the <code>docker-compose.yml</code> file and modifying it for our needs.</p>
+<p>Firstly we need to setup our network which these containers will use to communicate. In the <code>docker-compose.yml</code> file scroll to the very bottom and add this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ipam</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">subnet</span>: <span style="color:#ae81ff">10.0.0.0</span><span style="color:#ae81ff">/24</span>
+</span></span></code></pre></div><p>Here we are defining a custom bridged network with the subnet <code>10.0.0.0/24</code>. This will be the network on which our containers will communicate with each other. Now we will assign all the wazuh elements a fixed IP to avoid any future confusion and keep things organized.</p>
+<p>Each wazuh service (Manager, Indexer and Dashboard) will get a unique IP that we will assign, find these services in the file and add this to the very end of each service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Wazuh manager&#39;s config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.0.0.2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Wazuh indexer&#39;s config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.0.0.3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Wazuh dashboard&#39;s config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.0.0.4</span>
+</span></span></code></pre></div><p>Now we know that Manager is on <code>10.0.0.2</code>, Indexer on <code>10.0.0.3</code> and Dashboard on <code>10.0.0.4</code>. We are done with the boring setup, now to configure our attack and victim machines. Add these after all the wazuh services:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kali</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">kalilinux/kali-rolling</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">attackBox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cap_add</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">NET_ADMIN</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">NET_RAW</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SYS_NICE</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tty</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">stdin_open</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.0.0.5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">ubuntu</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ubuntu:22.04</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">victimBox</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cap_add</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">NET_ADMIN</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">NET_RAW</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">SYS_NICE</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tty</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">stdin_open</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">lab-net</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.0.0.6</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">5050</span>:<span style="color:#ae81ff">80</span> <span style="color:#75715e"># We will run juice-shop through nginx to get better logs</span>
+</span></span></code></pre></div><p>Time to breakdown all the complex jargon that we see above. We first define the image we want to use, <code>kalilinux/kali-rolling</code> for our <code>attackBox</code> and <code>ubuntu:22.04</code> for our <code>victimBox</code>. That is pretty straight forward, next we need to have some capabilities in both the machines so that <code>suricata</code> can monitor the network without any issues. We define them using <code>cap_add</code>, starting with <code>NET_ADMIN</code> giving networking administrating rights, <code>NET_RAW</code> letting us capture raw packets and <code>SYS_NICE</code> for priority management.</p>
+<p>Then we get to <code>tty: true</code> and <code>stdin_open: true</code>, we are just telling the containers to stay active and keep standard input open so we can get interactive shells later. On the <code>ubuntu</code> machine we also have a <code>ports</code> section, because we will be running <code>OWASP Juice Shop</code>, a vulnerable web app on it and we want to access it from our host machine, so we expose the port <code>5050</code> on our host machine which maps to the port <code>80</code> on the container, that is what the <code>5050:80</code> means. We are doing this because we will run this app through nginx so we get proper <code>apache</code> logs and that can be fed and viewed by Wazuh. And we also assign them unique IPs like the wazuh services.</p>
+<p>We are now done with the configuration part, you can skip this by downloading this <code>yml</code> file from <a href="https://github.com/Maaroof-Khan10/Docker-Wazuh-HomeLab/blob/main/docker-compose.yml">my repo</a> directly if you just want to follow along or need a reference point to compare your configs. We can now start these containers but first we need to finish the certificate generation as per Wazuh&rsquo;s documentations. Go ahead and run this in the terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker compose -f generate-indexer-certs.yml run --rm generator
+</span></span></code></pre></div><p>After this is finished you have generated the necessary certificates and now we are ready to start our lab atlast. Run this command to start the services in the background:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker compose up -d
+</span></span></code></pre></div><p>It will take a while to download everything you need but after a while you will see all the services have started, to verify run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps
+</span></span></code></pre></div><h2 id="step-2---setting-up-the-victim-machine">Step 2 - Setting up the victim machine<a href="#step-2---setting-up-the-victim-machine" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>You should see that all the services are up and running! To check if Wazuh is running, open a browser and go to <code>https://localhost</code>. If you did everything correctly you should see a Wazuh dashboard running (Sometimes your browser might give a warning, click advance and go ahead). Login using the default username and password which is <code>admin:SecretPassword</code>. You should now be able to see the dashboard in all of it&rsquo;s glory.</p>
+<p><img src="/posts/3/wazuh-dashboard.png" alt="Wazuh Dashboard"></p>
+<p>We will be using this dashboard shortly but before that let us configure our victim and get it ready.
+We will:</p>
+<ul>
+<li>Ping all the machines to see if we are connected.</li>
+<li>Install and start <code>OWASP Juice Shop</code>.</li>
+<li>Install <code>nginx</code> and configure it to run juice-shop as proxy.</li>
+<li>Install and configure <code>Suricata</code>.</li>
+<li>Install and configure <code>Wazuh agent</code>.</li>
+</ul>
+<p>Starting with Pinging and Juice Shop configuration, let us open the interactive shell of your ubuntu:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec -it victimBox bash
+</span></span></code></pre></div><p>You should see that you are already in a root terminal. Start by updating apt and downloading a few tools we will need:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt update <span style="color:#f92672">&amp;&amp;</span> apt install curl git nginx nano iputils-ping -y
+</span></span></code></pre></div><p>We will now ping our attacker machine to see if we are actually connected or not:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ping -c <span style="color:#ae81ff">4</span> 10.0.0.5
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You can try to ping other wazuh services too</span>
+</span></span></code></pre></div><p><img src="/posts/3/ping-response.png" alt="Ping Response"></p>
+<p>You should see the replies coming from other machines! We successfully implemented a small lab network! Now onto the actual installation. We will setup <code>nodejs</code> and install/run a <code>juice-shop</code> instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># The installation documentation of nodejs </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># can be found on https://nodesource.com/products/distributions</span>
+</span></span><span style="display:flex;"><span>curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+</span></span><span style="display:flex;"><span>apt install nodejs -y
+</span></span><span style="display:flex;"><span>node -v <span style="color:#75715e"># To check if it is installed</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Now time to clone the repo</span>
+</span></span><span style="display:flex;"><span>git clone https://github.com/juice-shop/juice-shop.git --depth <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>cd juice-shop
+</span></span><span style="display:flex;"><span>npm install <span style="color:#75715e"># This will take a while</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># We need to start it as a background service so:</span>
+</span></span><span style="display:flex;"><span>npm start &gt; /var/log/juice-shop.log 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp; 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The log file will be usefull to feed to wazuh</span>
+</span></span></code></pre></div><p>If you followed along perfectly you must now have a web page running on <code>10.0.0.6:3000</code>, but we are not done yet. We will now configure nginx to proxy our web app. First use <code>nano</code> and open <code>/etc/nginx/sites-available/default</code> and replace everything with this:</p>
+<pre tabindex="0"><code>server {
+    listen 80;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+</code></pre><p>Now run the following commands to check and restart <code>nginx</code> and we are almost done with configuring <code>OWASP Juice-Shop</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nginx -t <span style="color:#75715e"># To check if the configuration is proper.</span>
+</span></span><span style="display:flex;"><span>service nginx restart
+</span></span></code></pre></div><p>You should now be able to open a browser, go to <code>localhost:5050</code> and see the <code>OWASP Juice-Shop</code> in all it&rsquo;s glory!</p>
+<p><img src="/posts/3/juice-shop.png" alt="Juice Shop"></p>
+<h2 id="step-3---suricata-configuration">Step 3 - Suricata configuration<a href="#step-3---suricata-configuration" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>After this we will configure <code>Suricata</code> so that all our network traffic is monitored. To install it run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install software-properties-common -y
+</span></span><span style="display:flex;"><span>add-apt-repository ppa:oisf/suricata-stable -y
+</span></span><span style="display:flex;"><span>apt update
+</span></span><span style="display:flex;"><span>apt install suricata -y
+</span></span></code></pre></div><p>Once everything is installed, we will update the threat rules to the latest version:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>suricata-update
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Also run this to see your interface (Would most probably be eth0)</span>
+</span></span><span style="display:flex;"><span>apt install iproute2 -y
+</span></span><span style="display:flex;"><span>ip addr
+</span></span></code></pre></div><p>Usually suricata&rsquo;s config is set to eth0 by default but, just to check, open <code>/etc/suricata/suricata.yaml</code> with <code>nano</code> to verify:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># The af-packet should be set to eth0 or whatever your interface name is</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">af-packet</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">interface</span>: <span style="color:#ae81ff">eth0</span>
+</span></span></code></pre></div><p>After that we check if the configuration is proper by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>suricata -T -c /etc/suricata/suricata.yaml -v
+</span></span></code></pre></div><p>Once it is loaded we can go ahead and start <code>suricata</code> in the background:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>suricata -D -c /etc/suricata/suricata.yaml -i eth0 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Replace with your specific interface name</span>
+</span></span></code></pre></div><p>All our network traffic data is now being logged and we will send it to wazuh soon.</p>
+<h2 id="step-4---wazuh-agent-setup">Step 4 - Wazuh agent setup<a href="#step-4---wazuh-agent-setup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>The final step is here, setting up the wazuh agent so that we can see all the logs in the dashboard. Follow these commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install wget -y
+</span></span><span style="display:flex;"><span>wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.5-1_amd64.deb 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Replace with the version you are using</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Can also use the &#34;Deploy new agent&#34; on the dashboard </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to get the version or command needed</span>
+</span></span><span style="display:flex;"><span>apt --fix-broken install -y <span style="color:#75715e"># Optional but recommended to run</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Run the --fix-broken command if dpkg gives an error.</span>
+</span></span><span style="display:flex;"><span>dpkg -i ./wazuh-agent_4.14.5-1_amd64.deb <span style="color:#75715e"># To install the agent</span>
+</span></span></code></pre></div><p>The installation part is done, now the fun part of configuration. Once this is done we will be ready to start monitorting. Use <code>nano</code> to open the config file at <code>/var/ossec/etc/ossec.conf</code>. Inside the <code>&lt;client&gt;</code> tag make sure the server manager IP is set to <code>10.0.0.2</code> and the <code>enrollment</code> is added properly as shown in the screenshot.</p>
+<p><img src="/posts/3/agent-enrollment.png" alt="Agent Enrollement"></p>
+<p>It is now time to add all the log files we have. Scroll to the botoom of the <code>.conf</code> to find the <code>Log Analysis</code> section, here we will add our custom logs. Add these:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- Suricata log files --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>json<span style="color:#f92672">&lt;/log_format&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/suricata/eve.json<span style="color:#f92672">&lt;/location&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- Nginx log files --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>syslog<span style="color:#f92672">&lt;/log_format&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/nginx/access.log<span style="color:#f92672">&lt;/location&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>syslog<span style="color:#f92672">&lt;/log_format&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/nginx/error.log<span style="color:#f92672">&lt;/location&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- Juice-Shop log file --&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>syslog<span style="color:#f92672">&lt;/log_format&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/juice-shop.log<span style="color:#f92672">&lt;/location&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
+</span></span></code></pre></div><p>Once these are added we are finally ready to launch our agent, run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service wazuh-agent start
+</span></span></code></pre></div><p>After that when you go to the wazuh dashboard you would be able to see that your machine is online .</p>
+<p><img src="/posts/3/ubuntu-active.png" alt="Ubuntu Active"></p>
+<p>Clicking on the chart will show you all the available agents, like this:</p>
+<p><img src="/posts/3/ubuntu-active2.png" alt="Ubuntu Active 2"></p>
+<p>Clicking on it will then show you all the stats and logs in detail:</p>
+<p><img src="/posts/3/vbc.png" alt="VictimBox charts"></p>
+<h2 id="step-5---a-fake-attack-simulation">Step 5 - A fake attack simulation<a href="#step-5---a-fake-attack-simulation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>To perform a basic check and to see if our wazuh agent is sending logs we will run a <code>nmap</code> scan using our attack machine to see if it gets logged. To do this exit the victim container on terminal and enter the attack terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exit <span style="color:#75715e"># To exit the victimBox</span>
+</span></span><span style="display:flex;"><span>docker exec -it attackBox bash
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install nmap</span>
+</span></span><span style="display:flex;"><span>apt update
+</span></span><span style="display:flex;"><span>apt install nmap -y
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If this gives an error, run this and it should be fixed</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># most probably</span>
+</span></span><span style="display:flex;"><span>apt update --fix-missing
+</span></span><span style="display:flex;"><span>apt install nmap -y
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Run an aggressive scan to check</span>
+</span></span><span style="display:flex;"><span>nmap -A 10.0.0.6 <span style="color:#75715e"># Our victim&#39;s IP</span>
+</span></span></code></pre></div><p>On the Wazuh dashboard, go to <code>Threat Hunting</code>, you will see pie charts of all the recent logs. We can already see that <code>Suricata</code> has logged some data, confirming that our lab is successfully working!</p>
+<p><img src="/posts/3/vBPing.png" alt="Threat Hunting Dashboard"></p>
+<p>To see the detailed logs, we will go to <code>Events</code> tab in <code>Threat Hunting</code>. We can already see a lot of activity has been logged and <code>Suricata</code> already detected <code>NMAP</code> as a suspect! Our lab works as intended!</p>
+<p><img src="/posts/3/events.png" alt="Events"></p>
+<p>Clicking on an entry will show us a more detailed view, lets check if the source of the attack is shows as <code>10.0.0.5 (attackBox)</code></p>
+<p><img src="/posts/3/attackEvent.png" alt="Attack Event"></p>
+<p>And this confirms that our <code>Kali</code> machine was the one running the <code>nmap</code> scan!</p>
+<p>You can even set a wazuh agent on the attacker machine if you want to, just follow the previous steps as it is. Keep in mind that we are not setting <code>juice-shop</code> and <code>nginx</code> on the attack machine! So only follow the steps for <code>suricata</code> and <code>wazuh-agent</code>. You should then see both of the machines online in your <code>Endpoints</code> tab:</p>
+<p><img src="/posts/3/cover.png" alt="Both machines connected"></p>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>This lab covers the configuration, setup and usage of an almost real-life <code>SIEM</code> environment. All the things covered here are a great actual practical skill that is needed daily in <code>SOC</code> and <code>Red Teaming</code> operations. Thank you for reading and following this walkthrough and happy hacking!</p>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
