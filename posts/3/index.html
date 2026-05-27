@@ -106,7 +106,7 @@
   </h1>
   <div class="post-meta"><time class="post-date">2026-05-26</time><span class="post-author">Maaroof Khan</span>
     
-<span class="post-reading-time">10 min read (2065 words)</span></div>
+<span class="post-reading-time">10 min read (2085 words)</span></div>
 
   
     <span class="post-tags">
@@ -210,7 +210,7 @@ That aside, today we will be creating a homelab using <code>docker</code> and <c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">5050</span>:<span style="color:#ae81ff">80</span> <span style="color:#75715e"># We will run juice-shop through nginx to get better logs</span>
 </span></span></code></pre></div><p>Time to breakdown all the complex jargon that we see above. We first define the image we want to use, <code>kalilinux/kali-rolling</code> for our <code>attackBox</code> and <code>ubuntu:22.04</code> for our <code>victimBox</code>. That is pretty straight forward, next we need to have some capabilities in both the machines so that <code>suricata</code> can monitor the network without any issues. We define them using <code>cap_add</code>, starting with <code>NET_ADMIN</code> giving networking administrating rights, <code>NET_RAW</code> letting us capture raw packets and <code>SYS_NICE</code> for priority management.</p>
-<p>Then we get to <code>tty: true</code> and <code>stdin_open: true</code>, we are just telling the containers to stay active and keep standard input open so we can get interactive shells later. On the <code>ubuntu</code> machine we also have a <code>ports</code> section, because we will be running <code>OWASP Juice Shop</code>, a vulnerable web app on it and we want to access it from our host machine, so we expose the port <code>5050</code> on our host machine which maps to the port <code>80</code> on the container, that is what the <code>5050:80</code> means. We are doing this because we will run this app through nginx so we get proper <code>apache</code> logs and that can be fed and viewed by Wazuh. And we also assign them unique IPs like the wazuh services.</p>
+<p>Then we get to <code>tty: true</code> and <code>stdin_open: true</code>, we are just telling the containers to stay active and keep standard input open so we can get interactive shells later. On the <code>ubuntu</code> machine we also have a <code>ports</code> section, because we will be running <code>OWASP Juice Shop</code>, a vulnerable web app on it and we want to access it from our host machine, so we expose the port <code>5050</code> on our host machine which maps to the port <code>80</code> on the container, that is what the <code>5050:80</code> means. We are doing this because we will run this app through nginx so we get proper <code>apache</code> or <code>syslog</code> logs and that can be fed and viewed by Wazuh. And we also assign them unique IPs like the wazuh services.</p>
 <p>We are now done with the configuration part, you can skip this by downloading this <code>yml</code> file from <a href="https://github.com/Maaroof-Khan10/Docker-Wazuh-HomeLab/blob/main/docker-compose.yml">my repo</a> directly if you just want to follow along or need a reference point to compare your configs. We can now start these containers but first we need to finish the certificate generation as per Wazuh&rsquo;s documentations. Go ahead and run this in the terminal:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker compose -f generate-indexer-certs.yml run --rm generator
 </span></span></code></pre></div><p>After this is finished you have generated the necessary certificates and now we are ready to start our lab atlast. Run this command to start the services in the background:</p>
@@ -307,11 +307,13 @@ We will:</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!-- Nginx log files --&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">&lt;!-- This can also be set to &#39;apache&#39; --&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>syslog<span style="color:#f92672">&lt;/log_format&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/nginx/access.log<span style="color:#f92672">&lt;/location&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;localfile&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">&lt;!-- This can also be set to &#39;apache&#39; --&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;log_format&gt;</span>syslog<span style="color:#f92672">&lt;/log_format&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;location&gt;</span>/var/log/nginx/error.log<span style="color:#f92672">&lt;/location&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/localfile&gt;</span>
