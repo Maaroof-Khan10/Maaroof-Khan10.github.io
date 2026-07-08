@@ -8,7 +8,57 @@
     <language>en-us</language>
     <managingEditor>maaroofkhan2004@gmail.com (Maaroof Khan)</managingEditor>
     <webMaster>maaroofkhan2004@gmail.com (Maaroof Khan)</webMaster>
-    <lastBuildDate>Tue, 26 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CVEs</title>
+      <link>https://Maaroof-Khan10.github.io/tags/cves/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/cves/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>HackTheBox</title>
+      <link>https://Maaroof-Khan10.github.io/tags/hackthebox/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/hackthebox/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://Maaroof-Khan10.github.io/tags/linux/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/linux/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>RedTeaming</title>
+      <link>https://Maaroof-Khan10.github.io/tags/redteaming/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/redteaming/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Writeup</title>
+      <link>https://Maaroof-Khan10.github.io/tags/writeup/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/tags/writeup/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>BlueTeaming</title>
       <link>https://Maaroof-Khan10.github.io/tags/blueteaming/</link>
@@ -30,26 +80,6 @@
     </item>
     
     <item>
-      <title>Linux</title>
-      <link>https://Maaroof-Khan10.github.io/tags/linux/</link>
-      <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
-      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
-      <guid>https://Maaroof-Khan10.github.io/tags/linux/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>RedTeaming</title>
-      <link>https://Maaroof-Khan10.github.io/tags/redteaming/</link>
-      <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
-      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
-      <guid>https://Maaroof-Khan10.github.io/tags/redteaming/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
       <title>SOC</title>
       <link>https://Maaroof-Khan10.github.io/tags/soc/</link>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
@@ -65,26 +95,6 @@
       <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
       <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
       <guid>https://Maaroof-Khan10.github.io/tags/easy/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>HackTheBox</title>
-      <link>https://Maaroof-Khan10.github.io/tags/hackthebox/</link>
-      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
-      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
-      <guid>https://Maaroof-Khan10.github.io/tags/hackthebox/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Writeup</title>
-      <link>https://Maaroof-Khan10.github.io/tags/writeup/</link>
-      <pubDate>Sun, 10 Aug 2025 16:46:16 +0530</pubDate>
-      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
-      <guid>https://Maaroof-Khan10.github.io/tags/writeup/</guid>
       <description></description>
       <content></content>
     </item>

